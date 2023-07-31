@@ -8,9 +8,9 @@ const Header = () => {
     return (
         <MainHeader>
             <NavLink to="/">
-                <img style={{height:'10%', width:"10%"}} src={Logo} alt="Logo" />
+                <img style={{ height: "10%", width: "10%" }} src={Logo} alt="Logo" />
             </NavLink>
-            <Nav/>
+            <Nav />
         </MainHeader>
     )
 };
