@@ -21,7 +21,7 @@ const Nav = () => {
           display: inline-block;
           text-decoration: none;
           font-size: 1.6rem;
-          font-weight: 500;
+          font-weight: 550;
           text-transform: uppercase;
           color: ${({ theme }) => theme.colors.black};
           transition: color 0.3s linear;
