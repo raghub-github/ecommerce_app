@@ -13,6 +13,7 @@ const Nav = () => {
       gap: 4.8rem;
       justify-content:center;
       align-items: center;
+      margin: auto;
 
       .navbar-link {
         &:link,
