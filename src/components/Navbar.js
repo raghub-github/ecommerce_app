@@ -17,21 +17,26 @@ const Navbar = () => {
                             <li className="nav-item">
                                 <Link className="nav-link active" aria-current="page" to="/">Home</Link>
                             </li>
-
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle" to="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Products
-                                </Link>
-                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li><Link className="dropdown-item" to="/">Rudraksha</Link></li>
-                                    <li><Link className="dropdown-item" to="/">Books</Link></li>
-                                    <li><Link className="dropdown-item" to="/">Dhuti</Link></li>
-                                    {/* <li><hr className="dropdown-divider" /></li> */}
-                                    <li><Link className="dropdown-item" to="/">Murti</Link></li>
-                                </ul>
+                            <li className="nav-item">
+                                <Link className="nav-link active" aria-current="page" to="/products">Products</Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">About</Link>
+                                <Link className="nav-link active" aria-current="page" to="/contact">Contact Us</Link>
+                            </li>
+
+                            {/* <li className="nav-item ">
+                                <Link className="nav-link active" to="/" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Products
+                                </Link>
+                                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                     <li><Link className="dropdown-item" to="/">Rudraksha</Link></li>
+                                    <li><Link className="dropdown-item" to="/">Books</Link></li>
+                                    <li><Link className="dropdown-item" to="/">Dhuti</Link></li>
+                                    <li><Link className="dropdown-item" to="/">Murti</Link></li> 
+                                </ul> 
+                            </li> */}
+                            <li className="nav-item">
+                                <Link className="nav-link active" to="/about">About</Link>
                             </li>
                             {/* <li className="nav-item">
                                 <Link className="nav-link disabled" to="/" tabindex="-1" aria-disabled="true">Disabled</Link>
