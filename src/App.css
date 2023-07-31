@@ -1,9 +1,9 @@
 body{
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  background-color: rgb(19 23 33);
-  color: white;
+  /* background-color: white; */
+  /* background-color: rgb(19 23 33);
+  color: white; */
 }
 
 .App {
