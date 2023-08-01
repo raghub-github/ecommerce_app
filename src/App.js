@@ -1,4 +1,5 @@
 import './App.css';
+import Header from './components/Header';
 import Home from './components/Home'
 import About from './components/About'
 import Products from './components/Products'
@@ -9,7 +10,6 @@ import ErrorPage from './components/ErrorPage'
 import { GlobalStyle } from './GlobalStyle';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from 'styled-components';
-import Header from './components/Header';
 
 function App() {
   const theme = {
