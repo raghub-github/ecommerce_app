@@ -97,7 +97,7 @@ const Nav = () => {
       .active .mobile-nav-icon {
         display: none;
         font-size: 4.2rem;
-        position: absolute;
+        position: relative;
         top: 30%;
         right: 10%;
         color: ${({ theme }) => theme.colors.black};
@@ -109,11 +109,12 @@ const Nav = () => {
       }
 
       .navbar-lists {
-        width: 100vw;
-        height: 100vh;
+        width:100vw;
+        height:100vh;
         position: absolute;
         top: 0;
-        left: 0;
+        right: 0;
+        // left:0;
         background-color: #fff;
 
         display: flex;
@@ -124,7 +125,7 @@ const Nav = () => {
         visibility: hidden;
         opacity: 0;
         transform: translateX(100%);
-        /* transform-origin: top; */
+        // transform-origin: top; 
         transition: all 3s linear;
       }
 
@@ -165,7 +166,7 @@ const Nav = () => {
 
   return (
     <Nav>
-      <div className={menuIcon ? "navbar active" : "navbar"}>
+      <div className={menuIcon ? "navbar active " : "navbar "}>
         <ul className="navbar-lists">
           <li>
             <NavLink

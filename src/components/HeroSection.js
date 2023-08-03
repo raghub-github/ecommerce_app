@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "../styles/Button";
+import image1 from "../image/rud2.jpeg"
 
 const HeroSection = ({ myData }) => {
   const { name } = myData;
@@ -24,11 +25,7 @@ const HeroSection = ({ myData }) => {
           {/* our homepage image  */}
           <div className="hero-section-image">
             <figure>
-              <imgage
-                src="../image/pujari_logo.png"
-                alt="hero-section-photo"
-                className="img-style"
-              />
+              <img src={image1} className="img-style" alt="img" />
             </figure>
           </div>
         </div>
@@ -44,8 +41,11 @@ const Wrapper = styled.section`
     min-width: 10rem;
     height: 10rem;
   }
-
+  .grid{
+    display:flex;
+  }
   .hero-section-data {
+    
     p {
       margin: 2rem 0;
     }
@@ -72,8 +72,8 @@ const Wrapper = styled.section`
 
     &::after {
       content: "";
-      width: 60%;
-      height: 80%;
+      width: 100%;
+      height: 100%;
       background-color: rgba(81, 56, 238, 0.4);
       position: absolute;
       left: 50%;
@@ -82,21 +82,36 @@ const Wrapper = styled.section`
     }
   }
   .img-style {
-    width: 100%;
+    width: 130%;
     height: auto;
+    align-items:center;
+    justify-contants:center;
   }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {
     .grid {
-      gap: 10rem;
+      gap: 9rem;
+      display:inline-block;
     }
 
+    .hero-section-data{
+      margin:30px;
+    }
+
+    .img-style {
+      width: 100%;
+      height: auto;
+      align-items:center;
+      justify-contants:center;
+    }
+    
     figure::after {
       content: "";
-      width: 50%;
-      height: 100%;
+      width: 90%;
+      height: 90%;
       left: 0;
-      top: 10%;
+      top: 20%;
+      margin-left:-20px;
       /* bottom: 10%; */
       background-color: rgba(81, 56, 238, 0.4);
     }
