@@ -1,11 +1,12 @@
 import React from 'react'
 import { Link } from "react-router-dom";
-import logo from "../image/pujari_logo.png"
+import logo from "./image/pujari_logo.png"
+
 
 const Navbar = () => {
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
                     <img style={{ height: "5%", width: "5%", marginRight: "15px" }} src={logo} alt="Pujari logo" />
                     {/* <Link className="navbar-brand" to="/"><strong>Pujari</strong></Link> */}
