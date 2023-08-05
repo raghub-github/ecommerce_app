@@ -7,7 +7,9 @@ const Home = () => {
     name: "Pujari store",
   };
 
-  return <HeroSection myData={data} />;
+  return <>
+    <HeroSection myData={data} />
+  </>;
 };
 
 export default Home;

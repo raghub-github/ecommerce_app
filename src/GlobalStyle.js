@@ -155,11 +155,14 @@ input[type="submit"]{
 @media (max-width: ${({ theme }) => theme.media.tab}) {
   .container {
   max-width: 130rem;
-  padding: 0 3.2rem;
+  padding: 9rem 3.2rem;
   }
 }
 
 @media (max-width: ${({ theme }) => theme.media.mobile}) {
+  .container {
+    padding: 2px 3rem;
+  }
   html {
   font-size: 50%;
   }

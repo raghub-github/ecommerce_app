@@ -45,7 +45,7 @@ const Wrapper = styled.section`
     display:flex;
   }
   .hero-section-data {
-    
+
     p {
       margin: 2rem 0;
     }
@@ -67,6 +67,7 @@ const Wrapper = styled.section`
     justify-content: center;
     align-items: center;
   }
+
   figure {
     position: relative;
 
@@ -87,8 +88,13 @@ const Wrapper = styled.section`
     align-items:center;
     justify-contants:center;
   }
+  .img-style:hover {
+    width: 135%;
+    transition: all 0.8s ease-in-out;
+  }
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {
+    padding: 5rem 0;
     .grid {
       gap: 9rem;
       display:inline-block;
@@ -103,6 +109,10 @@ const Wrapper = styled.section`
       height: auto;
       align-items:center;
       justify-contants:center;
+    }
+    .img-style:hover {
+      width: 105%;
+      transition: all 0.8s ease-in-out;
     }
     
     figure::after {
