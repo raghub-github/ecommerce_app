@@ -12,6 +12,7 @@ import ErrorPage from './ErrorPage'
 import { GlobalStyle } from './GlobalStyle';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from 'styled-components';
+import Footer from "./components/Footer";
 
 const App = () => {
   const theme = {
@@ -54,6 +55,7 @@ const App = () => {
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="*" element={<ErrorPage />} />
         </Routes>
+        <Footer/>
       </Router>
     </ThemeProvider>
   );

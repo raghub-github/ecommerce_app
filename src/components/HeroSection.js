@@ -101,7 +101,7 @@ const Wrapper = styled.section`
     }
 
     .hero-section-data{
-      margin:30px;
+      margin:11%;
     }
 
     .img-style {

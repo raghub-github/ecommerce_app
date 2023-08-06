@@ -6,7 +6,7 @@ const Cart = () => {
 };
 
 const Wrapper = styled.section`
-  padding: 9rem 0;
+  padding: 5rem 0;
 
   .grid-four-column {
     grid-template-columns: repeat(4, 1fr);

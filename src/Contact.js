@@ -4,9 +4,15 @@ const Contact = () => {
   const Wrapper = styled.section`
     padding: 4rem 0 4rem 0;
     text-align: center;
+    .common-heading {
+      font-size: 3.8rem;
+      font-weight: 500; 
+      margin-bottom: 3rem;
+      text-transform: capitalize;
+    }
 
     .container {
-      margin-top: 6rem;
+      margin-top: 10rem;
 
       .contact-form {
         max-width: 50rem;
@@ -38,7 +44,7 @@ const Contact = () => {
       <h2 className="common-heading">Contact page</h2>
 
       <iframe
-        src="https://www.google.com/maps/embed?pb=!1m16!1m12!1m3!1d55116.98855515319!2d87.75983657304091!3d22.872830267012638!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!2m1!1spujari%20shop%2C%20word%20no%2013%2C%20vivekanada%20apartment%2C%20vivekananda%20pally%2C%20arambagh%2C%20hooghly%2C%20712601!5e0!3m2!1sen!2sin!4v1691251276105!5m2!1sen!2sin"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d117626.64812074947!2d87.79004940234384!3d22.882635789971467!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f81321c9946f95%3A0x3f6368d5588d75e4!2sVIVEKANANDA%20PALLY!5e0!3m2!1sen!2sin!4v1691306706016!5m2!1sen!2sin"
         width="100%"
         height="400"
         style={{ border: 0 }}
@@ -50,7 +56,7 @@ const Contact = () => {
       <div className="container">
         <div className="contact-form">
           <form
-            action="https://formspree.io/f/xeqdgwnq"
+            action="https://formspree.io/f/xrgwewve"
             method="POST"
             className="contact-inputs">
             <input
