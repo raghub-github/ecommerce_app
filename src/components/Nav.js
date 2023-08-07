@@ -114,7 +114,7 @@ const Nav = () => {
         height:100vh;
         position: absolute;
         top: -40px;
-        right: -41px;
+        right: -36px;
         background-color: #fff;
 
         display: flex;

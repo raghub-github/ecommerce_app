@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <MainHeader>
       <NavLink to="/">
-      <img className="logo-size" style={{ height: "10%", width: "10%" }} src={Logo} alt="Logo" />
+      <img className="logo-size" style={{ height: "25%", width: "25%" }} src={Logo} alt="Logo" />
       </NavLink>
       <Nav />
       {/* <Navbar/> */}
@@ -29,8 +29,8 @@ const MainHeader = styled.header`
 
   @media (max-width: ${({ theme }) => theme.media.mobile}) {
     .logo-size{
-        height: 25% !important;
-        width: 25% !important;
+        height: 50% !important;
+        width: 50% !important;
     }
   }
 
