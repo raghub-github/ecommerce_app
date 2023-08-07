@@ -8,7 +8,7 @@ const Navbar = () => {
         <div>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container-fluid">
-                    <img style={{ height: "5%", width: "5%", marginRight: "15px" }} src={logo} alt="Pujari logo" />
+                    <img style={{ height: "5%", width: "5%", marginRight: "15px" }} src={logo} alt="Rudraksha logo" />
                     {/* <Link className="navbar-brand" to="/"><strong>Pujari</strong></Link> */}
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>

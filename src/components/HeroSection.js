@@ -12,12 +12,8 @@ const HeroSection = ({ myData }) => {
         <div className="grid grid-two-column">
           <div className="hero-section-data">
             <p className="intro-data">Welcome to </p>
-            <h1> {name} </h1>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
-              atque temporibus veniam doloribus libero ad error omnis voluptates
-              animi! Suscipit sapiente.
-            </p>
+            <h1 className="setStyle" style={{color:"#410000"}}> {name} </h1>
+             <p> <strong style={{color:"rgb(9 74 0)"}}>  In the yogic tradition, Rudraksha are considered as the "Tears of Shiva" and not just an accessory or a piece of jewellery. It is seen as an instrument for inner transformation.This guide tells you all you need to know about this sacred seed.</strong></p>
             <NavLink>
               <Button>show now</Button>
             </NavLink>
@@ -98,6 +94,11 @@ const Wrapper = styled.section`
     .grid {
       gap: 9rem;
       display:inline-block;
+    }
+
+    .setStyle{
+      font-size: 6rem;
+      font-family: "roboto",sans-serif;
     }
 
     .hero-section-data{

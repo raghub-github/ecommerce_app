@@ -7,7 +7,7 @@ import FeatureProduct from './components/FeatureProduct';
 
 const Home = () => {
   const data = {
-    name: "Pujari store",
+    name: "Rudraksha Store",
   };
 
   return <>

@@ -26,19 +26,19 @@ const Footer = () => {
 
                 <footer>
                     <div className="styles cont grid grid-four-column">
-                        <div className="footer-about cont1 style">
-                            <h3 style={{ color: "rgb(252 255 235)" }}><strong>Pujari Store</strong></h3>
-                            <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. </p>
+                        <div className="footer-about cont2 style">
+                            <h3 style={{ color: "rgb(252 255 235)" }}>Rudraksha Store</h3>
+                            <p>Wearing rudraksha mala creates a cocoon of one’s own energy. It helps in offering mental clarity and spiritual growth.</p>
                         </div>
                         <div className="style cont1">
-                            <h3 style={{ color: "rgb(252 255 235)" }}><strong>Subscribe to get important updates</strong></h3>
+                            <h3 style={{ color: "rgb(252 255 235)" }}>Subscribe to get important updates</h3>
                             <form className="style" action="#">
                                 <input type="email" name="email" placeholder="YOUR E-MAIL" />
                                 <input type="submit" value="subscribe" />
                             </form>
                         </div>
                         <div className="footer-social style cont1">
-                            <h3 style={{ color: "rgb(252 255 235)" }}><strong>Follow Us</strong></h3>
+                            <h3 style={{ color: "rgb(252 255 235)" }}>Follow Us</h3>
                             <div className="footer-social--icons ">
                                 <div>
                                     <FaDiscord className="icons" />
@@ -56,7 +56,7 @@ const Footer = () => {
                             </div>
                         </div>
                         <div className="style">
-                            <h3 style={{ color: "rgb(252 255 235)" }}><strong>Call Us</strong></h3>
+                            <h3 style={{ color: "rgb(252 255 235)" }}>Call Us</h3>
                             <a href="tel:9614271744"><h3>+91 9614271744</h3></a>
                         </div>
                     </div>
@@ -65,7 +65,7 @@ const Footer = () => {
                         <hr />
                         <div className="container styles grid-two-column ">
                             <p>
-                                @{new Date().getFullYear()} PujariStore. All Rights Reserved
+                                @{new Date().getFullYear()} RudrakshaStore. All Rights Reserved
                             </p>
                             <div className="styles">
                                 <p>PRIVACY POLICY</p>
@@ -107,6 +107,11 @@ const Wrapper = styled.section`
     justify-content: center;
     gap:10rem;
   }
+  .cont2{
+    max-width:40rem;
+    margin-bottom: 7rem;
+    margin-top: 2rem;
+ }
 
   .contact-short {
     max-width: 60vw;
@@ -182,8 +187,20 @@ const Wrapper = styled.section`
         
     }
     .cont1{
+        max-width:100%;
         margin-bottom: 7rem;
         margin-top: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .cont2{
+        max-width:100%;
+        margin-bottom: 7rem;
+        margin-top: 2rem;
+        display: flex;
+        padding-left:20px;
+        padding-right:20px;
     }
     .styles1{
         display: flex;

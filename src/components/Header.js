@@ -2,7 +2,7 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import Nav from "./Nav";
-import Logo from '../image/pujari_logo.png'
+import Logo from '../image/logo1.png'
 // import Navbar from '../Navbar'
 
 
@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <MainHeader>
       <NavLink to="/">
-      <img className="logo-size" style={{ height: "25%", width: "25%" }} src={Logo} alt="Logo" />
+      <img className="logo-size" style={{ height: "20%", width: "20%" }} src={Logo} alt="Logo" />
       </NavLink>
       <Nav />
       {/* <Navbar/> */}

@@ -41,7 +41,7 @@ const Contact = () => {
 
   return (
     <Wrapper>
-      <h2 className="common-heading">Contact page</h2>
+      <h2 className="common-heading">Contact Us</h2>
 
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d117626.64812074947!2d87.79004940234384!3d22.882635789971467!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f81321c9946f95%3A0x3f6368d5588d75e4!2sVIVEKANANDA%20PALLY!5e0!3m2!1sen!2sin!4v1691306706016!5m2!1sen!2sin"
