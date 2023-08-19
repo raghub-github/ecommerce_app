@@ -7,10 +7,11 @@ const ListView = ({ products }) => {
   return (
     <Wrapper className="section">
       <div className="container grid">
-        {products.map((curElem) => {
+        {products.map((curElem , index) => {
           const { id, name, image, price, description } = curElem;
           return (
-            <div className="card grid grid-two-column">
+            <div key={index} className="card grid grid-two-column">
+              
               <figure>
                 <img src={image} alt={name} />
               </figure>
@@ -35,7 +36,7 @@ const ListView = ({ products }) => {
 };
 
 const Wrapper = styled.section`
-  padding: 9rem 0;
+  padding: 4rem 0;
 
   .container {
     max-width: 120rem;
