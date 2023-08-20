@@ -3,11 +3,20 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import { FiShoppingCart } from "react-icons/fi";
 import { CgMenu, CgClose } from "react-icons/cg";
+import { useCartContext } from "../context/cart_context";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from "../styles/Button";
+
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
+  const { total_item } = useCartContext();
+  const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   const Nav = styled.nav`
+    .btn{
+      width: 140%;
+    }
     .navbar-lists {
       display: flex;
       gap: 4.8rem;
@@ -165,8 +174,8 @@ const Nav = () => {
   `;
 
   return (
-    <Nav>
-      <div className={menuIcon ? "navbar active " : "navbar "}>
+    <Nav >
+      <div className={menuIcon ? "navbar active " : "navbar "} >
         <ul className="navbar-lists">
           <li>
             <NavLink
@@ -200,10 +209,19 @@ const Nav = () => {
               Contact
             </NavLink>
           </li>
+
+          {/* {!isAuthenticated ? <li>
+            <Button className="btn" onClick={() => loginWithRedirect()}>Log in</Button>
+          </li> : <li><Button className="btn" onClick={() => logout({ logoutParams: { returnTo: window.location.origin } })}>
+            Log Out
+          </Button>
+          </li>} */}
+
+
           <li>
-            <NavLink to="/cart" className="navbar-link cart-trolley--link">
+            <NavLink onClick={() => setMenuIcon(false)} to="/cart" className="navbar-link cart-trolley--link">
               <FiShoppingCart className="cart-trolley" />
-              <span className="cart-total--item"> 10 </span>
+              <span className="cart-total--item"> {total_item} </span>
             </NavLink>
           </li>
         </ul>
@@ -225,5 +243,6 @@ const Nav = () => {
     </Nav>
   );
 };
+
 
 export default Nav;

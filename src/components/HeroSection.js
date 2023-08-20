@@ -14,7 +14,7 @@ const HeroSection = ({ myData }) => {
             <p className="intro-data">Welcome to </p>
             <h1 className="setStyle" style={{color:"#410000"}}> {name} </h1>
              <p> <strong style={{color:"rgb(9 74 0)"}}>  In the yogic tradition, Rudraksha are considered as the "Tears of Shiva" and not just an accessory or a piece of jewellery. It is seen as an instrument for inner transformation.This guide tells you all you need to know about this sacred seed.</strong></p>
-            <NavLink>
+            <NavLink to="./products">
               <Button>show now</Button>
             </NavLink>
           </div>
