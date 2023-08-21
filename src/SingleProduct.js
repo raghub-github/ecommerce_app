@@ -14,8 +14,7 @@ import AddToCart from "./components/AddToCart";
 const API = "https://api.pujakaitem.com/api/products";
 
 const SingleProduct = () => {
-  const { getSingleProduct, isSingleLoading, singleProduct } =
-    useProductContext();
+  const { getSingleProduct, isSingleLoading, singleProduct } = useProductContext();
 
   const { id } = useParams();
 
@@ -35,7 +34,7 @@ const SingleProduct = () => {
   useEffect(() => {
     getSingleProduct(`${API}?id=${id}`);
   }, []);
-
+  
   if (isSingleLoading) {
     return <div className="page_loading">Loading.....</div>;
   }

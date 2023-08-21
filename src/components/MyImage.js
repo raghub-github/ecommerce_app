@@ -3,9 +3,9 @@ import styled from "styled-components";
 
 const MyImage = ({ imgs = [{ url: "" }] }) => {
   const [mainImage, setMainImage] = useState(imgs[0]);
-
+  // console.log(imgs[1]);
   return (
-    <Wrapper>
+    <Wrapper> 
       <div className="grid grid-four-column">
         {imgs.map((curElm, index) => {
           return (

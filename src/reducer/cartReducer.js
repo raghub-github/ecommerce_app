@@ -157,5 +157,3 @@ const cartReducer = (state, action) => {
 };
 
 export default cartReducer;
-
-// https://stackoverflow.com/questions/63117470/how-to-return-two-values-in-reduce#:~:text=You%20cannot%20return%20two%20values%20in%20reduce%20.
