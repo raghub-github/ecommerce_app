@@ -50,7 +50,7 @@ router.post(
 
 //Router: 3, Update an existing note using: PUT method "api/notes/updatenote" , login required
 router.put("/updatenote/:id", fetchuser, async (req, res) => {
-  const { title, description, tag } = req.body;
+  const { title, description, tag } = await req.body;
   try {
     // Create a anew note Object
     const newNote = {};
@@ -63,7 +63,7 @@ router.put("/updatenote/:id", fetchuser, async (req, res) => {
     if (tag) {
       newNote.tag = tag;
     }
-    // Find the note to be updated and update it 8167082675
+    // Find the note to be updated and update it 
     let note = await Note.findById(req.params.id);
     if (!note) {
       return res.status(404).send("Not Found");

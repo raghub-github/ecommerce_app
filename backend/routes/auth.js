@@ -6,6 +6,7 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const JWT_SECRET = "Raghuisgoodboy";
+// const secret = process.env.JWT_SECRET;
 // const JWT_SECRET = process.env.JWT_SECRET;
 
 //ROUTER 1: Create a user using POST "/api/auth/createuser", doesn't require authentication
@@ -22,6 +23,7 @@ router.post(
   // If there are error-> return a bad request and the error
   async (req, res) => {
     let success = false;
+    console.log("secret is:", JWT_SECRET);
     console.log("user created", req, res);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
