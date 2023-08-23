@@ -8,8 +8,8 @@ connectToMongo();
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", require("./routes/auth"));
-app.use("/api/notes", require("./routes/notes"));
+app.use("/api/carts", require("./routes/carts"));
 
 app.listen(port, () => {
-  console.log(`iNoutebook backend listening on port http://localhost:${port}`);
+  console.log(`eComApp backend listening on port http://localhost:${port}`);
 });

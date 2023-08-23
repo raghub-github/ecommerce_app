@@ -15,6 +15,7 @@ router.post(
   [
     body("name", "enter a valid name").isLength({ min: 3 }),
     body("email", "enter a valid email").isEmail(),
+    body("mobile", "enter a valid mobile number"),
     body("password", "Your password must be atleast 5 characters").isLength({
       min: 5,
     }),
@@ -23,7 +24,6 @@ router.post(
   // If there are error-> return a bad request and the error
   async (req, res) => {
     let success = false;
-    console.log("secret is:", JWT_SECRET);
     console.log("user created", req, res);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -35,6 +35,7 @@ router.post(
       const user = await User.create({
         name: req.body.name,
         email: req.body.email,
+        mobile: req.body.mobile,
         password: secPass,
       });
       const data = {
@@ -71,7 +72,7 @@ router.post(
     if (!errors.isEmpty()) {
       success = false;
       return res.status(400).json({ success, errors: errors.array() });
-    }
+    };
     const { email, password } = req.body;
     try {
       let user = await User.findOne({ email });

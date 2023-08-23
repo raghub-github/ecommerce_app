@@ -1,17 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import './App.css';
 import Header from './components/Header';
-import Home from './Home'
-import About from './About'
-import Products from './Products'
-import Contact from './Contact'
-import SingleProduct from './SingleProduct'
-import Cart from './Cart'
-import ErrorPage from './ErrorPage'
+import Home from './Home';
+import About from './About';
+import Products from './Products';
+import Contact from './Contact';
+import SingleProduct from './SingleProduct';
+import Cart from './Cart';
+import ErrorPage from './ErrorPage';
 import { GlobalStyle } from './GlobalStyle';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from 'styled-components';
 import Footer from "./components/Footer";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import alert from "./components/Alert";
 
 const App = () => {
   const theme = {
@@ -38,6 +41,16 @@ const App = () => {
       tab: "998px",
     },
   };
+  const [alert, setAlert] = useState(null);
+  const showAlert = (message, type) => {
+    setAlert({
+      msg: message,
+      type: type,
+    });
+    setTimeout(() => {
+      setAlert(null);
+    }, 2000);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -51,10 +64,20 @@ const App = () => {
           <Route exact path="/products" element={<Products />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/singleproduct/:id" element={<SingleProduct />} />
+          <Route
+            exact
+            path="/login"
+            element={<Login showAlert={showAlert} />}
+          />
+          <Route
+            exact
+            path="/signup"
+            element={<Signup showAlert={showAlert} />}
+          />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="*" element={<ErrorPage />} />
         </Routes>
-        <Footer/>
+        <Footer />
       </Router>
     </ThemeProvider>
   );
