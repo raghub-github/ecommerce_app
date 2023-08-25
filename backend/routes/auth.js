@@ -5,9 +5,7 @@ const fetchuser = require("../middleware/fetchuser");
 const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
-const JWT_SECRET = "Raghuisgoodboy";
-// const secret = process.env.JWT_SECRET;
-// const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = process.env.REACT_APP_JWT_SECRET;
 
 //ROUTER 1: Create a user using POST "/api/auth/createuser", doesn't require authentication
 router.post(
