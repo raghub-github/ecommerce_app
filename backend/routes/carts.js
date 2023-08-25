@@ -2,14 +2,18 @@ const express = require("express");
 const router = express.Router();
 const fetchuser = require("../middleware/fetchuser");
 const CartItems = require("../models/CartItems");
+// const products = require("../models/products");
+const {getAllProducts} = require("../controlles/products");
 const { body, validationResult } = require("express-validator");
 // const user = require("../models/User");
+
+//Router : 1,  Get all the data using: GET method "allproducts"
+router.route('/').get(getAllProducts);
 
 //Router : 1,  Get all the carts using: GET method "api/carts/getuser" , login required
 router.get("/fetchallcarts", fetchuser, async (req, res) => {
   try {
     const cartsData = await CartItems.find({ user: req.user.id });
-    console.log(req.user.id, CartItems);
     res.json(cartsData);
   } catch (error) {
     console.error(error.message);
@@ -22,22 +26,17 @@ router.post(
   "/addcarts",
   fetchuser,
   [
-    body("title", "Enter a valid title").isLength({ min: 3 }),
-    body("description", "Description must be atleast 5 characters").isLength({
-      min: 5,
-    }),
+    body("data", "Not a valid object").isObject(),
   ],
   async (req, res) => {
     try {
-      const { title, description, tag } = req.body;
+      const { data } = req.body;
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
       const carts = new CartItems({
-        title,
-        description,
-        tag,
+        data,
         user: req.user.id,
       });
       const savedCart = await carts.save();
@@ -89,8 +88,6 @@ router.delete("/deletecart/:id", fetchuser, async (req, res) => {
   // Find the cart to be deleted and delete it
   try {
     let cart = await CartItems.findById(req.params.id);
-    console.log(cart);
-    console.log(cart.id);
     if (!cart) {
       return res.status(404).send("Not Found");
     }
