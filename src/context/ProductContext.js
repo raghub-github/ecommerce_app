@@ -3,8 +3,8 @@ import axios from "axios";
 import reducer from "../reducer/ProductReducer";
 
 const AppContext = createContext();
-
-const API = "https://api.pujakaitem.com/api/products";
+// const API = "https://api.pujakaitem.com/api/products";
+const API = "http://localhost:3001/api/products";
 
 const initialState = {
   isLoading: false,
@@ -12,7 +12,8 @@ const initialState = {
   products: [],
   featureProducts: [],
   isSingleLoading: false,
-  singleProduct: {},
+  // singleProduct: {},
+  singleProduct: [],
 };
 
 const AppProvider = ({ children }) => {
@@ -22,7 +23,8 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "SET_LOADING" });
     try {
       const res = await axios.get(url);
-      const products = await res.data;
+      const products = await res.data.products;
+      // console.log("id is 5", products);
       dispatch({ type: "SET_API_DATA", payload: products });
     } catch (error) {
       dispatch({ type: "API_ERROR" });
@@ -35,7 +37,8 @@ const AppProvider = ({ children }) => {
     dispatch({ type: "SET_SINGLE_LOADING" });
     try {
       const res = await axios.get(url);
-      const singleProduct = await res.data;
+      const singleProduct = await res.data.products;
+      // console.log("hello single",singleProduct);
       dispatch({ type: "SET_SINGLE_PRODUCT", payload: singleProduct });
     } catch (error) {
       dispatch({ type: "SET_SINGLE_ERROR" });

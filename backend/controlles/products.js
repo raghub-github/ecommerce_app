@@ -1,10 +1,13 @@
 const Product = require('../models/products');
 
 const getAllProducts = async (req, res) => {
-    const { company, name, featured, sort, select } = req.query;
+    const { company, name, featured, sort, select, _id } = req.query;
     const queryObject = {};
     if (company) {
         queryObject.company = { $regex: company, $options: "i" };
+    }
+    if (_id) {
+        queryObject._id = _id;
     }
     if (name) {
         queryObject.name = { $regex: name, $options: "i" };
@@ -23,7 +26,7 @@ const getAllProducts = async (req, res) => {
     }
 
     let page = Number(req.query.page) || 1;
-    let limit = Number(req.query.limit) || 10;
+    let limit = Number(req.query.limit) || 12;
     let skip = (page - 1) * limit;
     apiData = apiData.skip(skip).limit(limit);
 

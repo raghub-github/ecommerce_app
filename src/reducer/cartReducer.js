@@ -1,15 +1,14 @@
 const cartReducer = (state, action) => {
+  
   if (action.type === "ADD_TO_CART") {
-    let { id, color, amount, product } = action.payload;
-
+    let { _id, color, amount, product } = action.payload;
     // tackle the existing product
-    let existingProduct = state.cart.find((curItem)=> curItem.id === id + color);
-
+    let existingProduct = state.cart.find((curItem)=> curItem._id === _id + color);
     if (existingProduct) {
       let updatedProduct = state.cart.map((curElem) => {
-        if (curElem.id === id + color) {
+        if (curElem._id === _id + color) {
           let newAmount = curElem.amount + amount;
-
+          // console.log("current", curElem._id);
           if (newAmount >= curElem.max) {
             newAmount = curElem.max;
           }
@@ -27,11 +26,11 @@ const cartReducer = (state, action) => {
       };
     } else {
       let cartProduct = {
-        id: id + color,
+        _id: _id + color,
         name: product.name,
         color,
         amount,
-        image: product.image[0].url,
+        image: product.image[0],
         price: product.price,
         max: product.stock,
       };
@@ -46,7 +45,7 @@ const cartReducer = (state, action) => {
   // to set the increment and decrement
   if (action.type === "SET_DECREMENT") {
     let updatedProduct = state.cart.map((curElem) => {
-      if (curElem.id === action.payload) {
+      if (curElem._id === action.payload) {
         let decAmount = curElem.amount - 1;
 
         if (decAmount <= 1) {
@@ -62,11 +61,11 @@ const cartReducer = (state, action) => {
       }
     });
     return { ...state, cart: updatedProduct };
-  }
+  };
 
   if (action.type === "SET_INCREMENT") {
     let updatedProduct = state.cart.map((curElem) => {
-      if (curElem.id === action.payload) {
+      if (curElem._id === action.payload) {
         let incAmount = curElem.amount + 1;
 
         if (incAmount >= curElem.max) {
@@ -86,7 +85,7 @@ const cartReducer = (state, action) => {
 
   if (action.type === "REMOVE_ITEM") {
     let updatedCart = state.cart.filter(
-      (curItem) => curItem.id !== action.payload
+      (curItem) => curItem._id !== action.payload
     );
     return {
       ...state,

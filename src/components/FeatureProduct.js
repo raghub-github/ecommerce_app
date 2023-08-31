@@ -16,7 +16,7 @@ const FeatureProduct = () => {
                 <div className="common-heading">Our Feature Services</div>
                 <div className="styles">
                     {featureProducts.map((curElem) => {
-                        return <Product key={curElem.id} {...curElem} />;
+                        return <Product key={curElem._id} {...curElem} />;
                     })}
                 </div>
             </div>

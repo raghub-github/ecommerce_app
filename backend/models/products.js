@@ -10,6 +10,8 @@ const productSchema = new mongoose.Schema({
     colors: { type: Array, required: false, },
     image: { type: Array, required: true },
     description: { type: String, required: false, },
+    stock:{type: Number, required: true},
+    reviews:{type:Number, required: true, default: 99},
     company: { type: String, enum: { values: ["apple", "samsung", "dell", "mi", "nokia", "asus", "lenova", "rolex"], message: `{VALUE} is not supported` }, }
 });
 

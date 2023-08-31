@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-const host = "http://localhost:5000";
+const host = "http://localhost:3001";
 
 const Signup = (props) => {
   const [credentials, setCredentials] = useState({
@@ -11,7 +11,7 @@ const Signup = (props) => {
   });
   let navigate = useNavigate();
   const handleSubmit = async (e) => {
-    const { name, email, password } = credentials;
+    const { name, email, mobile, password } = credentials;
     e.preventDefault();
     // API Call
     const response = await fetch(`${host}/api/auth/createuser`, {
@@ -22,11 +22,12 @@ const Signup = (props) => {
       body: JSON.stringify({
         name,
         email,
+        mobile,
         password,
       }),
     });
     const json = await response.json();
-    console.log(json);
+    // console.log(json);
     if (json.success) {
       localStorage.setItem("authToken", json.authToken);
       props.showAlert("Account Created Successfully", "success");

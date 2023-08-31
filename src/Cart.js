@@ -15,7 +15,7 @@ const Cart = () => {
     return (
       <EmptyDiv>
         <h3>No Cart in Item </h3>
-      </EmptyDiv> 
+      </EmptyDiv>
     );
   }
 
@@ -35,7 +35,7 @@ const Cart = () => {
         <hr />
         <div className="cart-item">
           {cart.map((curElem) => {
-            return <CartItem key={curElem.id} {...curElem} />;
+            return <CartItem key={curElem._id} {...curElem} />;
           })}
         </div>
         <hr />
