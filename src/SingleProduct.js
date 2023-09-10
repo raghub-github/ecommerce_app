@@ -44,7 +44,6 @@ const SingleProduct = () => {
     <Wrapper>
       {singleProduct.map((elm, index) => {
         return <div key={index}>
-
           <PageNavigation title={elm.name} />
           <Container className="container">
             <div className="grid grid-two-column">
@@ -107,7 +106,7 @@ const SingleProduct = () => {
               </div>
             </div>
           </Container>
-          </div>
+        </div>
       })}
     </Wrapper>
   );
