@@ -3,25 +3,25 @@ import styled from "styled-components";
 import Product from "./Product";
 
 const FeatureProduct = () => {
-    const { isLoading, featureProducts } = useProductContext();
+  const { isLoading, featureProducts } = useProductContext();
+  console.log(featureProducts);
+  if (isLoading) {
+    return <div> ......Loading </div>;
+  }
 
-    if (isLoading) {
-        return <div> ......Loading </div>;
-    }
-
-    return (
-        <Wrapper className="section">
-            <div className="container">
-                <div className="intro-data">Check Now!</div>
-                <div className="common-heading">Our Feature Services</div>
-                <div className="styles">
-                    {featureProducts.map((curElem) => {
-                        return <Product key={curElem._id} {...curElem} />;
-                    })}
-                </div>
-            </div>
-        </Wrapper>
-    );
+  return (
+    <Wrapper className="section">
+      <div className="container">
+        <div className="intro-data">Check Now!</div>
+        <div className="common-heading">Our Feature Services</div>
+        <div className="styles">
+          {featureProducts.map((curElem) => {
+            return <Product key={curElem._id} {...curElem} />;
+          })}
+        </div>
+      </div>
+    </Wrapper>
+  );
 };
 
 const Wrapper = styled.section`

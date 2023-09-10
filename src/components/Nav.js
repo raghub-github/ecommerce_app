@@ -192,7 +192,7 @@ const Nav = () => {
               Home
             </NavLink>
           </li>
-          
+
           <li>
             <NavLink
               to="/products"
@@ -217,6 +217,32 @@ const Nav = () => {
               Contact
             </NavLink>
           </li>
+
+          {/* login logout button */}
+          {!localStorage.getItem("authToken") ? (
+            <form className="d-flex" >
+              <Link
+                to="/login"
+                role="button"
+                onClick={() => setMenuIcon(false)}
+                style={{ paddingRight: "1rem" }}
+              >
+                <Button >Login</Button>
+              </Link>
+              <Link
+                to="/signup"
+                role="button"
+                onClick={() => setMenuIcon(false)}
+                style={{ paddingLeft: "1rem" }}
+              >
+                <Button>Signup</Button>
+              </Link>
+            </form>
+          ) : (
+            <Button onClick={handleLogout} className="btn">
+              Logout
+            </Button>
+          )}
 
           {/* {!isAuthenticated ? <li>
             <Button className="btn" onClick={() => loginWithRedirect()}>Log in</Button>

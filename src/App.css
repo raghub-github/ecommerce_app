@@ -1,4 +1,4 @@
-body{
+body {
   margin: 0;
   padding: 0;
   /* background-color: white; */
@@ -43,4 +43,22 @@ body{
   to {
     transform: rotate(360deg);
   }
+}
+
+.textStyle {
+  font-size: 3.8rem;
+  font-weight: 500;
+  margin-bottom: 4rem;
+}
+.formStyle{
+  display: flex; flex-direction: column; gap: 2.5rem; align-items:center;
+}
+
+.contactInputs {
+  transition: all 0.2s;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.contactInputs:hover {
+  transform: scale(0.9);
 }

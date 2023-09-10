@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../App.css";
 const host = "http://localhost:3001";
 
 const Login = (props) => {
+
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -33,46 +35,39 @@ const Login = (props) => {
   const onChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
+
   return (
-    <div className="mt-3">
-      <h2 className="App">Login to continue to Rudraksha Store</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email address
-          </label>
+    <div style={{ "padding": "4rem 0 4rem 0", "textAlign": "center" }}>
+      <h2 className="textStyle" >Login to continue to Rudraksha Store</h2>
+      <div style={{ "marginTop": "5rem" }} >
+        <form
+          onSubmit={handleSubmit}
+          className="formStyle"
+        >
           <input
-            style={{ backgroundColor: "rgb(13 0 23)", color: "white" }}
             type="email"
             value={credentials.email}
-            className="form-control"
             name="email"
             id="email"
+            placeholder="Enter email address"
             aria-describedby="emailHelp"
+            style={{ textTransform: "none", "width": "100%" }}
+            // value={isAuthenticated? user.name: ""}
             onChange={onChange}
           />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
           <input
-            style={{ backgroundColor: "rgb(13 0 23)", color: "white" }}
             type="password"
             value={credentials.password}
             name="password"
-            className="form-control"
             id="password"
+            style={{ textTransform: "none", "width": "100%" }}
             onChange={onChange}
+            placeholder="Enter Your Password"
+            required
           />
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Login
-        </button>
-      </form>
+          <input className="contactInputs" type="submit" value="send" />
+        </form>
+      </div>
     </div>
   );
 };

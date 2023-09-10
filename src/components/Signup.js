@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../styles/Button";
+import "../App.css";
+
 const host = "http://localhost:3001";
 
 const Signup = (props) => {
@@ -42,100 +45,69 @@ const Signup = (props) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value });
   };
 
-
   return (
-    <div className="container mt-3">
-      <h2 className="App">Create an account to use iNotebook</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="name" className="form-label">
-            Name
-          </label>
+    <div style={{ "padding": "4rem 0 4rem 0", "textAlign": "center" }} >
+      <h2 className="App textStyle" >Create an account to use Rudraksha Store</h2>
+      <div style={{ "marginTop": "5rem" }}>
+        <form className="formStyle" onSubmit={handleSubmit}>
           <input
-            style={{ backgroundColor: "rgb(13 0 23)", color: "white" }}
             type="text"
             required
             name="name"
+            placeholder="Enter Your Name"
             onChange={onChange}
-            className="form-control"
             id="name"
+            style={{ textTransform: "none", "width": "100%" }}
             aria-describedby="nameHelp"
           />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">
-            Email address
-          </label>
           <input
-            style={{ backgroundColor: "rgb(13 0 23)", color: "white" }}
             type="email"
             required
             name="email"
+            placeholder="Enter Your Email Address"
             onChange={onChange}
-            className="form-control"
+            style={{ textTransform: "none", "width": "100%" }}
             id="email"
             aria-describedby="emailHelp"
           />
-          <div id="emailHelp" className="form-text">
-            We'll never share your email with anyone else.
-          </div>
-        </div>
-        <div className="mb-3">
-          <label htmlFor="mobile" className="form-label">
-            Mobile Number
-          </label>
           <input
-            style={{ backgroundColor: "rgb(13 0 23)", color: "white" }}
             type="mobile"
             required
             name="mobile"
+            placeholder="Enter Your Mobile Number (only 10 digits required)"
             onChange={onChange}
-            className="form-control"
+            maxLength={10}
             id="mobile"
+            style={{ textTransform: "none", "width": "100%" }}
             aria-describedby="mobileHelp"
           />
-          <div id="mobileHelp" className="form-text">
-            We'll never share your mobile number with anyone else.
-          </div>
-        </div>
-
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">
-            Password
-          </label>
           <input
-            style={{ backgroundColor: "rgb(13 0 23)", color: "white" }}
             type="password"
             required
             minLength={5}
             name="password"
+            placeholder="Enter Your Password"
             onChange={onChange}
-            className="form-control"
+            style={{ textTransform: "none", "width": "100%" }}
             id="password"
           />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="cpassword" className="form-label">
-            Confirm Password
-          </label>
           <input
-            style={{ backgroundColor: "rgb(13 0 23)", color: "white" }}
             type="password"
             required
             minLength={5}
             name="cpassword"
+            placeholder="Confirm Password"
             onChange={onChange}
-            className="form-control"
+            style={{ textTransform: "none", "width": "100%" }}
             id="cpassword"
           />
-        </div>
-        <button
-          type="submit"
-          className="btn btn-primary"
-        >
-          Signup
-        </button>
-      </form>
+          <input
+            type="submit"
+            className="contactInputs"
+            value="SIGNUP"
+          />
+        </form>
+      </div>
     </div>
   );
 };
