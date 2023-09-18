@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
-import { json, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useProductContext } from "./context/ProductContext";
 import PageNavigation from "./components/PageNavigation";
 import MyImage from "./components/MyImage";
@@ -12,7 +12,8 @@ import Star from "./components/Stars";
 import AddToCart from "./components/AddToCart";
 
 // const API = "https://api.pujakaitem.com/api/products";
-const API = "http://localhost:3001/api/products";
+// const API = "http://localhost:3001/api/products";
+const API = "http://134.122.17.33:5000/api/products";
 
 const SingleProduct = () => {
   const { getSingleProduct, isSingleLoading, singleProduct } = useProductContext();

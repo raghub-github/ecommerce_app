@@ -4,13 +4,30 @@ import CartItem from "./components/CartItem";
 import { NavLink } from "react-router-dom";
 import { Button } from "./styles/Button";
 import FormatPrice from "./Helpers/FormatePrice";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useAuth0 } from "@auth0/auth0-react";
 
 const Cart = () => {
+  const host = "http://134.122.17.33:5000";
+  // const host = "http://localhost:3001";
+  const getuser = async () => {
+    try {
+      await fetch(`${host}/api/auth/getuser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("authToken"),
+        },
+      });
+    } catch (error) {
+      console.error("Error getting user data:", error);
+    }
+  };
+  if (localStorage.getItem("authToken")) {
+    const dd = getuser();
+  }
 
   const { cart, clearCart, total_price, shipping_fee } = useCartContext();
-  const { user, isAuthenticated } = useAuth0();
-
+  // const { user, isAuthenticated } = useAuth0();
   if (cart.length === 0) {
     return (
       <EmptyDiv>

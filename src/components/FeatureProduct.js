@@ -4,9 +4,8 @@ import Product from "./Product";
 
 const FeatureProduct = () => {
   const { isLoading, featureProducts } = useProductContext();
-  console.log(featureProducts);
   if (isLoading) {
-    return <div> ......Loading </div>;
+    return <div className="App"> ......Loading </div>;
   }
 
   return (

@@ -2,5 +2,9 @@
   "cSpell.words": ["filterproduct"],
   "workbench.activityBar.visible": true,
   "workbench.colorCustomizations": {},
-  "json.schemas": []
+  "json.schemas": [],
+  "files.associations": {
+    ".env*": "dotenv",
+    "insertion[1].C": "cpp"
+  }
 }

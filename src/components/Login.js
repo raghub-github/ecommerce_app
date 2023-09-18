@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-const host = "http://localhost:3001";
+// const host = "http://localhost:3001";
+const host = "http://134.122.17.33:5000";
 
 const Login = (props) => {
 
@@ -37,9 +38,9 @@ const Login = (props) => {
   };
 
   return (
-    <div style={{ "padding": "4rem 0 4rem 0", "textAlign": "center" }}>
+    <div className="container" style={{ "padding": "4rem 0 4rem 0", "textAlign": "center" }}>
       <h2 className="textStyle" >Login to continue to Rudraksha Store</h2>
-      <div style={{ "marginTop": "5rem" }} >
+      <div className="container" style={{ "marginTop": "5rem", "paddingTop": "50px", "paddingLeft": "50px", "paddingRight": "50px", "boxSizing": "border-box", "borderRadius": "10px", "paddingBottom": "50px", "backgroundColor": "rgb(227 245 255 / 28%)" }}>
         <form
           onSubmit={handleSubmit}
           className="formStyle"
@@ -49,7 +50,7 @@ const Login = (props) => {
             value={credentials.email}
             name="email"
             id="email"
-            placeholder="Enter email address"
+            placeholder="ENTER EMAIL ADDRESS"
             aria-describedby="emailHelp"
             style={{ textTransform: "none", "width": "100%" }}
             // value={isAuthenticated? user.name: ""}
@@ -62,10 +63,10 @@ const Login = (props) => {
             id="password"
             style={{ textTransform: "none", "width": "100%" }}
             onChange={onChange}
-            placeholder="Enter Your Password"
+            placeholder="ENTER YOUR PASSWORD"
             required
           />
-          <input className="contactInputs" type="submit" value="send" />
+          <input className="contactInputs" type="submit" value="LOGIN" />
         </form>
       </div>
     </div>

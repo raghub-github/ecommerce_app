@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button } from "../styles/Button";
+// import { Button } from "../styles/Button";
 import "../App.css";
 
-const host = "http://localhost:3001";
+// const host = "http://localhost:3001";
+const host = "http://134.122.17.33:5000";
 
 const Signup = (props) => {
   const [credentials, setCredentials] = useState({
@@ -48,13 +49,13 @@ const Signup = (props) => {
   return (
     <div style={{ "padding": "4rem 0 4rem 0", "textAlign": "center" }} >
       <h2 className="App textStyle" >Create an account to use Rudraksha Store</h2>
-      <div style={{ "marginTop": "5rem" }}>
+      <div className="container" style={{ "marginTop": "5rem", "paddingTop":"60px","paddingLeft":"50px","paddingRight":"50px", "boxSizing":"border-box","borderRadius":"10px", "paddingBottom":"50px", "backgroundColor":"rgb(227 245 255 / 28%)" }}>
         <form className="formStyle" onSubmit={handleSubmit}>
           <input
             type="text"
             required
             name="name"
-            placeholder="Enter Your Name"
+            placeholder="ENTER YOUR NAME"
             onChange={onChange}
             id="name"
             style={{ textTransform: "none", "width": "100%" }}
@@ -64,7 +65,7 @@ const Signup = (props) => {
             type="email"
             required
             name="email"
-            placeholder="Enter Your Email Address"
+            placeholder="ENTER YOUR EMAIL ADDRESS"
             onChange={onChange}
             style={{ textTransform: "none", "width": "100%" }}
             id="email"
@@ -74,7 +75,7 @@ const Signup = (props) => {
             type="mobile"
             required
             name="mobile"
-            placeholder="Enter Your Mobile Number (only 10 digits required)"
+            placeholder="ENTER YOUR MOBILE NUMBER (only 10 digits required)"
             onChange={onChange}
             maxLength={10}
             id="mobile"
@@ -86,7 +87,7 @@ const Signup = (props) => {
             required
             minLength={5}
             name="password"
-            placeholder="Enter Your Password"
+            placeholder="ENTER YOU PASSWORD"
             onChange={onChange}
             style={{ textTransform: "none", "width": "100%" }}
             id="password"
@@ -96,7 +97,7 @@ const Signup = (props) => {
             required
             minLength={5}
             name="cpassword"
-            placeholder="Confirm Password"
+            placeholder="CONFIRM PASSWORD"
             onChange={onChange}
             style={{ textTransform: "none", "width": "100%" }}
             id="cpassword"

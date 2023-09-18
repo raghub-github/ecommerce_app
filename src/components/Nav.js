@@ -99,7 +99,7 @@ const Nav = () => {
     }
 
     @media (max-width: ${({ theme }) => theme.media.mobile}) {
-      
+
       .mobile-navbar-btn {
         display: inline-block;
         z-index: 9999;
@@ -239,9 +239,19 @@ const Nav = () => {
               </Link>
             </form>
           ) : (
-            <Button onClick={handleLogout} className="btn">
-              Logout
-            </Button>
+            <form className="d-flex" >
+              <Link
+                to="/login"
+                role="button"
+                onClick={() => setMenuIcon(false)}
+              >
+                <Button onClick={handleLogout} >
+                  Logout
+                </Button>
+              </Link>
+
+            </form>
+
           )}
 
           {/* {!isAuthenticated ? <li>
