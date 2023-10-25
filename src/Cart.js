@@ -7,8 +7,7 @@ import FormatPrice from "./Helpers/FormatePrice";
 // import { useAuth0 } from "@auth0/auth0-react";
 
 const Cart = () => {
-  const host = "http://134.122.17.33:5000";
-  // const host = "http://localhost:3001";
+  const host = process.env.REACT_APP_HOSTNAME;
   const getuser = async () => {
     try {
       await fetch(`${host}/api/auth/getuser`, {
@@ -23,12 +22,13 @@ const Cart = () => {
     }
   };
   if (localStorage.getItem("authToken")) {
-    const dd = getuser();
+    // const dd = getuser();
   }
 
   const { cart, clearCart, total_price, shipping_fee } = useCartContext();
   // const { user, isAuthenticated } = useAuth0();
   if (cart.length === 0) {
+    console.log("length of cart", cart);
     return (
       <EmptyDiv>
         <h3>No Cart in Item </h3>

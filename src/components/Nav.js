@@ -261,7 +261,6 @@ const Nav = () => {
           </Button>
           </li>} */}
 
-
           <li>
             <NavLink onClick={() => setMenuIcon(false)} to="/cart" className="navbar-link cart-trolley--link">
               <FiShoppingCart className="cart-trolley" />

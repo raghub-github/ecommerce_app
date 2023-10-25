@@ -32,7 +32,7 @@ router.post(
     try {
       const user = await User.create({
         name: req.body.name,
-        email: req.body.email,
+        email: req.body.email, 
         mobile: req.body.mobile,
         password: secPass,
       });

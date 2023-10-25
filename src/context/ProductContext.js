@@ -5,7 +5,7 @@ import reducer from "../reducer/ProductReducer";
 const AppContext = createContext();
 // const API = "https://api.pujakaitem.com/api/products";
 // const API = "http://localhost:3001/api/products";
-const API = "http://134.122.17.33:5000/api/products";
+const API = `${process.env.REACT_APP_HOSTNAME}/api/products`;
 
 const initialState = {
   isLoading: false,
@@ -25,7 +25,6 @@ const AppProvider = ({ children }) => {
     try {
       const res = await axios.get(url);
       const products = await res.data.products;
-      // console.log("id is 5", products);
       dispatch({ type: "SET_API_DATA", payload: products });
     } catch (error) {
       dispatch({ type: "API_ERROR" });
@@ -33,7 +32,6 @@ const AppProvider = ({ children }) => {
   };
 
   // my 2nd api call for single product
-
   const getSingleProduct = async (url) => {
     dispatch({ type: "SET_SINGLE_LOADING" });
     try {

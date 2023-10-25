@@ -13,25 +13,12 @@ import AddToCart from "./components/AddToCart";
 
 // const API = "https://api.pujakaitem.com/api/products";
 // const API = "http://localhost:3001/api/products";
-const API = "http://134.122.17.33:5000/api/products";
+const API = `${process.env.REACT_APP_HOSTNAME}/api/products`;
 
 const SingleProduct = () => {
   const { getSingleProduct, isSingleLoading, singleProduct } = useProductContext();
 
   const { _id } = useParams();
-  // const {
-  //   _id: alias,
-  //   name,
-  //   company,
-  //   price,
-  //   description,
-  //   category,
-  //   stock,
-  //   stars,
-  //   reviews,
-  //   image,
-  // } = singleProduct;
-  // console.log(name, company, price);
 
   useEffect(() => {
     getSingleProduct(`${API}?_id=${_id}`);

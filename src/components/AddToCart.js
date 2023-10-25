@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
 import CartAmountToggle from "./CartAmountToggle";
 import { NavLink } from "react-router-dom";
 import { Button } from "../styles/Button";
 import { useCartContext } from "../context/cart_context";
-import { useNavigate } from "react-router-dom";
 
 const AddToCart = ({ product }) => {
-  let navigate = useNavigate();
   const { addToCart } = useCartContext();
-  const { _id, colors, stock } = product;
+  const { _id, colors, stock, nid } = product;
   const [color, setColor] = useState(colors[0]);
   const [amount, setAmount] = useState(1);
 
@@ -48,12 +46,8 @@ const AddToCart = ({ product }) => {
         setIncrease={setIncrease}
       />
 
-      <NavLink to="/cart" onClick={() => {
-        if (localStorage.getItem("authToken")) {
-          addToCart(_id, color, amount, product)
-        } else {
-          navigate("/login");
-        }
+      <NavLink to={localStorage.getItem("authToken") ? "/cart" : "/login"} onClick={() => {
+        addToCart(_id, color, amount, product, nid)
       }}>
         <Button className="btn">Add To Cart</Button>
       </NavLink>

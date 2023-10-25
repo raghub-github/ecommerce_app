@@ -8,7 +8,7 @@ const CartSchema = new mongoose.Schema({
   image: { type: String },
   max: { type: Number },
   name: { type: String },
-  _pid: { type: String },
+  _pid: { type: Object },
   date: { type: Date, default: Date.now },
 });
 

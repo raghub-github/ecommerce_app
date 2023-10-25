@@ -32,7 +32,6 @@ const ProductReducer = (state, action) => {
       };
 
     case "SET_SINGLE_PRODUCT":
-      // console.log("action",action.payload);
       return {
         ...state,
         isSingleLoading: false,

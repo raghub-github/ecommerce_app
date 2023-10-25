@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import "../App.css";
 
 // const host = "http://localhost:3001";
-const host = "http://134.122.17.33:5000";
+const host = process.env.REACT_APP_HOSTNAME;
 
 const Signup = (props) => {
   const [credentials, setCredentials] = useState({
