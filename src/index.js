@@ -6,11 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import { AppProvider } from './context/ProductContext';
 import { FilterContextProvider } from './context/filter_context';
 import { CartProvider } from './context/cart_context';
-import { Auth0Provider } from '@auth0/auth0-react';
+// import { Auth0Provider } from '@auth0/auth0-react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const domain = process.env.REACT_APP_AUTH_DOMAIN;
-const clientid = process.env.REACT_APP_AUTH_CLIENTID;
+// const domain = process.env.REACT_APP_AUTH_DOMAIN;
+// const clientid = process.env.REACT_APP_AUTH_CLIENTID;
 root.render(
 
   // <Auth0Provider
