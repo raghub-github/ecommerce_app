@@ -14,6 +14,7 @@ import { ThemeProvider } from 'styled-components';
 import Footer from "./components/Footer";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import AddProductForm from "./AddProduct";
 import alert from "./components/Alert";
 
 const App = () => {
@@ -63,6 +64,7 @@ const App = () => {
           <Route exact path="/products" element={<Products />} />
           <Route exact path="/contact" element={<Contact />} />
           <Route exact path="/singleproduct/:_id" element={<SingleProduct />} />
+          <Route exact path="/addproduct_raghubhunia53@gmail.com" element={<AddProductForm />} />
           <Route
             exact
             path="/login"

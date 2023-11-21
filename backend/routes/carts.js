@@ -2,13 +2,27 @@ const express = require("express");
 const router = express.Router();
 const fetchuser = require("../middleware/fetchuser");
 const CartItems = require("../models/CartItems");
+const Product = require("../models/products");
 const { getAllProducts } = require("../controlles/products");
 const { body, validationResult } = require("express-validator");
 
 //Router : 1,  Get all the data using: GET method "allproducts"
 router.route('/').get(getAllProducts);
 
-//Router : 1,  Get all the carts using: GET method "api/carts/getuser" , login required
+router.post('/addsingleproduct', async (req, res) => {
+  try {
+    const productData = req.body;
+    // Create a new product using the Mongoose model
+    const product = new Product(productData);
+    await product.save();
+    res.status(201).json({ message: 'Product added successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to add the product' });
+  }
+});
+
+//Router : 2,  Get all the carts using: GET method "api/carts/getuser" , login required
 router.get("/fetchallcarts", fetchuser, async (req, res) => {
   try {
     const cartsData = await CartItems.find({ user: req.user.id });
@@ -18,8 +32,6 @@ router.get("/fetchallcarts", fetchuser, async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
-
-
 
 //Router: 2, add all the carts using: POST method "api/carts/addcarts" , login required
 router.post(

@@ -26,7 +26,7 @@ const Nav = () => {
     }
     .navbar-lists {
       display: flex;
-      gap: 4.8rem;
+      gap: 4rem;
       justify-content:center;
       align-items: center;
       margin: auto;
@@ -199,6 +199,14 @@ const Nav = () => {
               className="navbar-link "
               onClick={() => setMenuIcon(false)}>
               Products
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/myorders"
+              className="navbar-link "
+              onClick={() => setMenuIcon(false)}>
+              Orders
             </NavLink>
           </li>
           <li>

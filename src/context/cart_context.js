@@ -44,7 +44,6 @@ const CartProvider = ({ children }) => {
       const cartData = await getLocalCartData();
       setCart(cartData);
       localStorage.setItem("userCartData", (JSON.stringify(cartData)));
-      // return cartData;
     } catch (error) {
       console.error("Error getting cart data:", error);
     }
@@ -55,7 +54,9 @@ const CartProvider = ({ children }) => {
       await getData();
     }
     fetchData();
+    //eslint-disable-next-line
   }, []); // Run once on component mount
+  console.log("cart: fetch", cart);
 
   const getLocalCartData1 = () => {
     const localCartData = localStorage.getItem("userCartData");
@@ -69,6 +70,7 @@ const CartProvider = ({ children }) => {
       return [];
     }
   };
+
   const initialState = {
     // cart: localStorage.getItem("authToken") ? cart : [],
     cart: localStorage.getItem("authToken") ? getLocalCartData1() : [],
@@ -98,10 +100,11 @@ const CartProvider = ({ children }) => {
               body: JSON.stringify({ newAmount }),
             });
             const json = await response.json();
-            console.log(json);
+            console.log("edited item",json);
+
           };
           editCart(curElem.nid, newAmount);
-
+          // setCart(...cart, { ...curElem, amount: newAmount });
           return {
             ...curElem,
             amount: newAmount,
@@ -111,7 +114,7 @@ const CartProvider = ({ children }) => {
         }
       });
       // const updatedCart = [...cart, updatedProduct]; // Add the new item to the cart
-      setCart(updatedProduct);
+      setCart(...updatedProduct);
       // return {
       //   ...initialState,
       //   cart: updatedProduct,
@@ -137,7 +140,9 @@ const CartProvider = ({ children }) => {
             body: JSON.stringify({ amount, color, price, image, max, name, _pid }),
           });
           if (response.ok) {
-            // console.log("Add to cart done");
+            const updatedCart = cart.concat(JSON.stringify(response));
+            setCart(updatedCart);
+            console.log("Add to cart done", updatedCart);
           } else {
             console.error("Failed to add cart data to the server");
           }
