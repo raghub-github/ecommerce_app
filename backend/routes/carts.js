@@ -42,13 +42,13 @@ router.post(
   // ],
   async (req, res) => {
     try {
-      const { color, amount, price, image, max, name, _pid } = req.body;
+      const { color, amount, price, image, max, name, _pid, category, company } = req.body;
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() });
       }
       const carts = new CartItems({
-        color, amount, price, image, max, name, _pid,
+        color, amount, price, image, max, name, _pid, category, company,
         user: req.user.id,
       });
       const savedCart = await carts.save();

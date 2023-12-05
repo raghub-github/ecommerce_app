@@ -116,8 +116,8 @@ const AddProductForm = () => {
 
     const checkboxStyle = {
         margin: '0 15px 5px',
-        transform: 'scale(1.5)', 
-      };
+        transform: 'scale(1.5)',
+    };
 
     return (
         <form style={formStyle} onSubmit={handleSubmit}>

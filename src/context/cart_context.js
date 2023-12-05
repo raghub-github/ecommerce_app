@@ -21,7 +21,7 @@ const CartProvider = ({ children }) => {
       return [];
     }
     try {
-      const newUserData = userCart.map(({ amount, color, price, image, max, name, _pid, _id }) => ({
+      const newUserData = userCart.map(({ amount, color, price, image, max, name, _pid, _id, user, category, company }) => ({
         amount,
         color,
         price,
@@ -30,6 +30,9 @@ const CartProvider = ({ children }) => {
         name,
         _id: _pid,
         nid: _id,
+        user,
+        category,
+        company,
       }));
       if (!Array.isArray(newUserData)) return [];
       else return newUserData;
@@ -56,7 +59,7 @@ const CartProvider = ({ children }) => {
     fetchData();
     //eslint-disable-next-line
   }, []); // Run once on component mount
-  console.log("cart: fetch", cart);
+  // console.log("cart: fetch", cart);
 
   const getLocalCartData1 = () => {
     const localCartData = localStorage.getItem("userCartData");
@@ -80,7 +83,7 @@ const CartProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addToCart = (_id, color, amount, product) => {
+  const addToCart = (_id, color, amount, product, category, company) => {
     let existingProduct = cart.find((curItem) => curItem._id === _id + color);
     if (existingProduct) {
       let updatedProduct = cart.map((curElem) => {
@@ -100,8 +103,8 @@ const CartProvider = ({ children }) => {
               body: JSON.stringify({ newAmount }),
             });
             const json = await response.json();
-            console.log("edited item",json);
-
+            console.log("edited item", json);
+            dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user:json.user, nid:json.nid } });
           };
           editCart(curElem.nid, newAmount);
           // setCart(...cart, { ...curElem, amount: newAmount });
@@ -125,11 +128,13 @@ const CartProvider = ({ children }) => {
         name: product.name,
         color,
         amount,
+        category,
+        company,
         image: product.image[0],
         price: product.price,
         max: product.stock,
       };
-      const addCart = async (amount, color, price, image, max, name, _pid) => {
+      const addCart = async (amount, color, price, image, max, name, _pid, category, company) => {
         try {
           const response = await fetch(`${host}/api/carts/addcarts`, {
             method: "POST",
@@ -137,12 +142,17 @@ const CartProvider = ({ children }) => {
               "Content-Type": "application/json",
               "auth-token": localStorage.getItem("authToken"),
             },
-            body: JSON.stringify({ amount, color, price, image, max, name, _pid }),
+            body: JSON.stringify({ amount, color, price, image, max, name, _pid, category, company }),
           });
           if (response.ok) {
-            const updatedCart = cart.concat(JSON.stringify(response));
+            const responseData = await response.json();
+            const updatedCart = cart.concat(responseData);
             setCart(updatedCart);
             console.log("Add to cart done", updatedCart);
+            const user = responseData.user;
+            const _proid = responseData._id;
+            console.log(_proid);
+            dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user, nid:_proid } });
           } else {
             console.error("Failed to add cart data to the server");
           }
@@ -153,7 +163,7 @@ const CartProvider = ({ children }) => {
 
       // const cartdata = JSON.stringify((cartProduct))
       if (localStorage.getItem("authToken")) {
-        addCart(cartProduct.amount, cartProduct.color, cartProduct.price, cartProduct.image, cartProduct.max, cartProduct.name, cartProduct._id);
+        addCart(cartProduct.amount, cartProduct.color, cartProduct.price, cartProduct.image, cartProduct.max, cartProduct.name, cartProduct._id, cartProduct.category, cartProduct.company);
         // cartProduct.forEach(({ amount, color, price, image, max, name, _id }) => {
         // });
       }
@@ -162,7 +172,7 @@ const CartProvider = ({ children }) => {
       //   cart: [...initialState.cart, cartProduct],
       // };
     }
-    dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product } });
+    // dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company } });
   };
 
   // increment and decrement the product
@@ -222,7 +232,6 @@ const CartProvider = ({ children }) => {
             body: JSON.stringify({ newAmount }),
           });
           const json = await response.json();
-          console.log("inc", json);
         };
         editCart(curElem.nid, incAmount);
         return {
@@ -265,7 +274,6 @@ const CartProvider = ({ children }) => {
         console.error("Error deleting cart data:", error);
       }
     };
-
     // Call deleteCart for the specific item
     const itemToDelete = cart.find((curElem) => curElem._id === _id);
     if (itemToDelete) {

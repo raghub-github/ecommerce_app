@@ -7,5 +7,6 @@
   "files.associations": {
     ".env*": "dotenv",
     "insertion[1].C": "cpp"
-  }
+  },
+  "editor.inlineSuggest.showToolbar": "onHover"
 }
