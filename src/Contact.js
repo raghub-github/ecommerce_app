@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+
 // import { useAuth0 } from "@auth0/auth0-react";
+const host = process.env.REACT_APP_HOSTNAME;
 
 const Contact = () => {
   const Wrapper = styled.section`
@@ -41,6 +44,50 @@ const Contact = () => {
   `;
 
   // const { user, isAuthenticated } = useAuth0();
+  const [userData, setUserData] = useState({ username: '', email: '' });
+
+  const getUserData = async () => {
+    try {
+      const response = await fetch(`${host}/api/auth/getuser`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": localStorage.getItem("authToken"),
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data) {
+          setUserData({ username: data.name, email: data.email });
+        } else {
+          setUserData({ username: '', email: '' });
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data", error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (localStorage.getItem("authToken")) {
+        await getUserData();
+      } else {
+        // Reset user data if auth-token is not present
+        setUserData({ username: '', email: '' });
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserData((prevUserData) => ({
+      ...prevUserData,
+      [name]: value,
+    }));
+  };
 
   return (
     <Wrapper>
@@ -64,20 +111,29 @@ const Contact = () => {
             className="contact-inputs">
             <input
               type="text"
-              placeholder="username"
+              placeholder="Username"
               name="username"
+              id="username"
+              onChange={handleInputChange}
               // value={isAuthenticated? user.name: ""}
+              // value={localStorage.getItem("authToken") ? userData.name : ""}
+              value={userData.username}
               required
               autoComplete="off"
+              style={{ textTransform: "none" }}
             />
 
             <input
               type="email"
-              name="Email"
+              name="email"
+              id="email"
               placeholder="Email"
-              // value={isAuthenticated? user.email: ""}
+              // value={localStorage.getItem("authToken") ? userData.email : ""}
+              value={userData.email}
               autoComplete="off"
+              onChange={handleInputChange}
               required
+              style={{ textTransform: "none" }}
             />
 
             <textarea
@@ -86,7 +142,8 @@ const Contact = () => {
               rows="10"
               required
               autoComplete="off"
-              placeholder="Enter you message"></textarea>
+              style={{ textTransform: "none" }}
+              placeholder="Enter you message" />
 
             <input type="submit" value="send" />
           </form>
