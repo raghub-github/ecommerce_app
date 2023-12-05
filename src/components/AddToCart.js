@@ -11,7 +11,6 @@ const AddToCart = ({ product }) => {
   const { _id, colors, stock, category, company } = product;
   const [color, setColor] = useState(colors[0]);
   const [amount, setAmount] = useState(1);
-  console.log(product);
   const setDecrease = () => {
     amount > 1 ? setAmount(amount - 1) : setAmount(1);
   };

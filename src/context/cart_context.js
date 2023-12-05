@@ -59,7 +59,6 @@ const CartProvider = ({ children }) => {
     fetchData();
     //eslint-disable-next-line
   }, []); // Run once on component mount
-  // console.log("cart: fetch", cart);
 
   const getLocalCartData1 = () => {
     const localCartData = localStorage.getItem("userCartData");
@@ -103,8 +102,8 @@ const CartProvider = ({ children }) => {
               body: JSON.stringify({ newAmount }),
             });
             const json = await response.json();
-            console.log("edited item", json);
-            dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user:json.user, nid:json.nid } });
+            // console.log("edited item", json);
+            dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user: json.user, nid: json.nid } });
           };
           editCart(curElem.nid, newAmount);
           // setCart(...cart, { ...curElem, amount: newAmount });
@@ -148,11 +147,10 @@ const CartProvider = ({ children }) => {
             const responseData = await response.json();
             const updatedCart = cart.concat(responseData);
             setCart(updatedCart);
-            console.log("Add to cart done", updatedCart);
+            // console.log("Add to cart done", updatedCart);
             const user = responseData.user;
             const _proid = responseData._id;
-            console.log(_proid);
-            dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user, nid:_proid } });
+            dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user, nid: _proid } });
           } else {
             console.error("Failed to add cart data to the server");
           }
@@ -178,10 +176,10 @@ const CartProvider = ({ children }) => {
   // increment and decrement the product
   const setDecrease = (_id) => {
     dispatch({ type: "SET_DECREMENT", payload: _id, });
-    console.log("_id: ", _id);
+    // console.log("_id: ", _id);
     let updatedProduct = cart.map((curElem) => {
-      console.log("cur: ", curElem._id, _id);
-      console.log("nid", curElem.nid);
+      // console.log("cur: ", curElem._id, _id);
+      // console.log("nid", curElem.nid);
       if (curElem._id === _id) {
         let decAmount = curElem.amount - 1;
         if (decAmount <= 1) {
@@ -217,7 +215,6 @@ const CartProvider = ({ children }) => {
     let updatedProduct = cart.map((curElem) => {
       if (curElem._id === _id) {
         let incAmount = curElem.amount + 1;
-
         if (incAmount >= curElem.max) {
           incAmount = curElem.max;
         }
@@ -265,7 +262,6 @@ const CartProvider = ({ children }) => {
         });
         const json = await response.json();
         // console.log(json);
-
         if (response.ok) {
         } else {
           console.error("Failed to delete cart data from the server");
