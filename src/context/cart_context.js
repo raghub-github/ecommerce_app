@@ -1,6 +1,5 @@
 import { createContext, useContext, useReducer, useEffect, useState } from "react";
 import reducer from "../reducer/cartReducer";
-
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
@@ -82,8 +81,10 @@ const CartProvider = ({ children }) => {
   };
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  const addToCart = (_id, color, amount, product, category, company) => {
+  const addToCart = async (_id, color, amount, product, category, company) => {
     let existingProduct = cart.find((curItem) => curItem._id === _id + color);
+    console.log("matchimg1", _id, cart);
+    console.log("existingProduct", existingProduct);
     if (existingProduct) {
       let updatedProduct = cart.map((curElem) => {
         if (curElem._id === _id + color) {
@@ -93,18 +94,41 @@ const CartProvider = ({ children }) => {
           }
           const editCart = async (_id, newAmount) => {
             // API Call
-            const response = await fetch(`${host}/api/carts/updatecart/${_id}`, {
-              method: "PUT",
-              headers: {
-                "Content-Type": "application/json",
-                "auth-token": localStorage.getItem("authToken"),
-              },
-              body: JSON.stringify({ newAmount }),
-            });
-            const json = await response.json();
-            // console.log("edited item", json);
-            dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user: json.user, nid: json.nid } });
+            try {
+              const response = await fetch(`${host}/api/carts/updatecart/${_id}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  "auth-token": localStorage.getItem("authToken"),
+                },
+                body: JSON.stringify({ newAmount }),
+              });
+              if (response.ok) {
+                const json = await response.json();
+                dispatch({
+                  type: "ADD_TO_CART",
+                  payload: {
+                    _id: (json._pid).replace(color, "").trim(),
+                    color,
+                    amount,
+                    product,
+                    category,
+                    company,
+                    user: json.user,
+                    nid: json._id,
+                  },
+                });
+              } else {
+                console.error("Failed to update cart data on the server");
+              }
+              // const json = await response.json();
+              // console.log("json edit", json);
+              // dispatch({ type: "ADD_TO_CART", payload: { _id: (json._pid).replace(color, "").trim(), color, amount, product, category, company, user: json.user, nid: json._id } });
+            } catch (error) {
+              console.error("Error updating cart data:", error);
+            }
           };
+
           editCart(curElem.nid, newAmount);
           // setCart(...cart, { ...curElem, amount: newAmount });
           return {
@@ -116,7 +140,7 @@ const CartProvider = ({ children }) => {
         }
       });
       // const updatedCart = [...cart, updatedProduct]; // Add the new item to the cart
-      setCart(...updatedProduct);
+      setCart(updatedProduct);
       // return {
       //   ...initialState,
       //   cart: updatedProduct,
@@ -145,11 +169,26 @@ const CartProvider = ({ children }) => {
           });
           if (response.ok) {
             const responseData = await response.json();
-            const updatedCart = cart.concat(responseData);
+            const newUserData = {
+              amount: responseData.amount,
+              color: responseData.color,
+              price: responseData.price,
+              image: responseData.image,
+              max: responseData.max,
+              name: responseData.name,
+              _id: responseData._pid,
+              nid: responseData._id,
+              user: responseData.user,
+              category: responseData.category,
+              company: responseData.company,
+            }
+            console.log("newUserData",newUserData);
+            const updatedCart = cart.concat(newUserData);
             setCart(updatedCart);
-            // console.log("Add to cart done", updatedCart);
             const user = responseData.user;
             const _proid = responseData._id;
+            console.log("added", updatedCart);
+            console.log("state", cart);
             dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user, nid: _proid } });
           } else {
             console.error("Failed to add cart data to the server");
@@ -176,10 +215,7 @@ const CartProvider = ({ children }) => {
   // increment and decrement the product
   const setDecrease = (_id) => {
     dispatch({ type: "SET_DECREMENT", payload: _id, });
-    // console.log("_id: ", _id);
     let updatedProduct = cart.map((curElem) => {
-      // console.log("cur: ", curElem._id, _id);
-      // console.log("nid", curElem.nid);
       if (curElem._id === _id) {
         let decAmount = curElem.amount - 1;
         if (decAmount <= 1) {
@@ -247,9 +283,7 @@ const CartProvider = ({ children }) => {
   const removeItem = (_id) => {
     dispatch({ type: "REMOVE_ITEM", payload: _id });
     let updatedProduct = cart.filter((curElem) => curElem._id !== _id);
-
     setCart(updatedProduct);
-
     // If you need to delete the item from the server as well, you can call the API here
     const deleteCart = async (id) => {
       try {
@@ -261,7 +295,6 @@ const CartProvider = ({ children }) => {
           },
         });
         const json = await response.json();
-        // console.log(json);
         if (response.ok) {
         } else {
           console.error("Failed to delete cart data from the server");
