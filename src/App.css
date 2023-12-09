@@ -48,7 +48,7 @@ body {
 .textStyle {
   font-size: 3.8rem;
   font-weight: 500;
-  margin-bottom: 4rem;
+  margin-bottom: 3rem;
 }
 .formStyle{
   display: flex; flex-direction: column; gap: 2.5rem; align-items:center;

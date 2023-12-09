@@ -82,11 +82,8 @@ const Contact = () => {
   }, []);
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserData((prevUserData) => ({
-      ...prevUserData,
-      [name]: value,
-    }));
+    // const { name, value } = e.target;
+    setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
   return (
@@ -143,7 +140,7 @@ const Contact = () => {
               required
               autoComplete="off"
               style={{ textTransform: "none" }}
-              placeholder="Enter you message" />
+              placeholder="Write your message here" />
 
             <input type="submit" value="send" />
           </form>

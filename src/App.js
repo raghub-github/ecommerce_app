@@ -16,6 +16,7 @@ import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AddProductForm from "./AddProduct";
 import alert from "./components/Alert";
+import PaymentPage from "./PaymentPage";
 
 const App = () => {
   const theme = {
@@ -76,6 +77,7 @@ const App = () => {
             element={<Signup showAlert={showAlert} />}
           />
           <Route exact path="/cart" element={<Cart />} />
+          <Route exact path="/payment" element={<PaymentPage />} />
           <Route exact path="*" element={<ErrorPage />} />
         </Routes>
         <Footer />

@@ -12,5 +12,13 @@ code {
     monospace;
 }
 
+.label-form{
+  text-align: left;
+  font-weight: 600;
+  display: grid;
+  width: 100%;
+  font-size: 13px;
+}
+
 
 

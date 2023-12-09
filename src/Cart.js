@@ -28,7 +28,7 @@ const Cart = () => {
   const { cart, clearCart, total_price, shipping_fee } = useCartContext();
   // const { user, isAuthenticated } = useAuth0();
   if (cart.length === 0) {
-    console.log("length of cart", cart);
+    // console.log("length of cart", cart);
     return (
       <EmptyDiv>
         <h3>No Cart in Item </h3>
@@ -87,8 +87,15 @@ const Cart = () => {
                 <FormatPrice price={shipping_fee + total_price} />
               </p>
             </div>
+            <NavLink style={{ margin: "10px" }} to="/payment">
+              <Button>
+                Proceed to Pay
+              </Button>
+            </NavLink>
           </div>
         </div>
+
+
       </div>
     </Wrapper>
   );
