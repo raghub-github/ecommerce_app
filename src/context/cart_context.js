@@ -59,22 +59,22 @@ const CartProvider = ({ children }) => {
     //eslint-disable-next-line
   }, []); // Run once on component mount
 
-  const getLocalCartData1 = () => {
-    const localCartData = localStorage.getItem("userCartData");
-    if (!localCartData) return [];
-    try {
-      const parsedData = JSON.parse(localCartData);
-      if (!Array.isArray(parsedData)) return [];
-      return parsedData;
-    } catch (error) {
-      console.error("Error parsing local cart data:", error);
-      return [];
-    }
-  };
+  // const getLocalCartData1 = () => {
+  //   const localCartData = localStorage.getItem("userCartData");
+  //   if (!localCartData) return [];
+  //   try {
+  //     const parsedData = JSON.parse(localCartData);
+  //     if (!Array.isArray(parsedData)) return [];
+  //     return parsedData;
+  //   } catch (error) {
+  //     console.error("Error parsing local cart data:", error);
+  //     return [];
+  //   }
+  // };
 
   const initialState = {
-    // cart: localStorage.getItem("authToken") ? cart : [],
-    cart: localStorage.getItem("authToken") ? getLocalCartData1() : [],
+    cart: localStorage.getItem("authToken") ? cart : [],
+    // cart: localStorage.getItem("authToken") ? getLocalCartData1() : [],
     total_item: "",
     total_price: "",
     shipping_fee: 5000,
@@ -83,8 +83,6 @@ const CartProvider = ({ children }) => {
 
   const addToCart = async (_id, color, amount, product, category, company) => {
     let existingProduct = cart.find((curItem) => curItem._id === _id + color);
-    console.log("matchimg1", _id, cart);
-    console.log("existingProduct", existingProduct);
     if (existingProduct) {
       let updatedProduct = cart.map((curElem) => {
         if (curElem._id === _id + color) {
@@ -121,9 +119,6 @@ const CartProvider = ({ children }) => {
               } else {
                 console.error("Failed to update cart data on the server");
               }
-              // const json = await response.json();
-              // console.log("json edit", json);
-              // dispatch({ type: "ADD_TO_CART", payload: { _id: (json._pid).replace(color, "").trim(), color, amount, product, category, company, user: json.user, nid: json._id } });
             } catch (error) {
               console.error("Error updating cart data:", error);
             }
@@ -182,13 +177,10 @@ const CartProvider = ({ children }) => {
               category: responseData.category,
               company: responseData.company,
             }
-            console.log("newUserData",newUserData);
             const updatedCart = cart.concat(newUserData);
             setCart(updatedCart);
             const user = responseData.user;
             const _proid = responseData._id;
-            console.log("added", updatedCart);
-            console.log("state", cart);
             dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user, nid: _proid } });
           } else {
             console.error("Failed to add cart data to the server");

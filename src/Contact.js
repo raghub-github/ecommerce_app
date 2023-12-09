@@ -89,63 +89,60 @@ const Contact = () => {
   return (
     <Wrapper>
       <h2 className="common-heading">Contact Us</h2>
-
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d117626.64812074947!2d87.79004940234384!3d22.882635789971467!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f81321c9946f95%3A0x3f6368d5588d75e4!2sVIVEKANANDA%20PALLY!5e0!3m2!1sen!2sin!4v1691306706016!5m2!1sen!2sin"
-        width="100%"
-        height="400"
-        style={{ border: 0 }}
-        allowFullScreen=""
-        loading="lazy"
-        title="map"
-        referrerPolicy="no-referrer-when-downgrade"></iframe>
-
-      <div className="container">
+      <div className="container" style={{ marginTop: "0" }}>
         <div className="contact-form">
           <form
             action="https://formspree.io/f/xrgwewve"
             method="POST"
             className="contact-inputs">
-            <input
-              type="text"
-              placeholder="Username"
-              name="username"
-              id="username"
-              onChange={handleInputChange}
-              // value={isAuthenticated? user.name: ""}
-              // value={localStorage.getItem("authToken") ? userData.name : ""}
-              value={userData.username}
-              required
-              autoComplete="off"
-              style={{ textTransform: "none" }}
-            />
-
-            <input
-              type="email"
-              name="email"
-              id="email"
-              placeholder="Email"
-              // value={localStorage.getItem("authToken") ? userData.email : ""}
-              value={userData.email}
-              autoComplete="off"
-              onChange={handleInputChange}
-              required
-              style={{ textTransform: "none" }}
-            />
-
-            <textarea
-              name="Message"
-              cols="30"
-              rows="10"
-              required
-              autoComplete="off"
-              style={{ textTransform: "none" }}
-              placeholder="Write your message here" />
-
+            <label style={{ display: "grid", textAlign: "left", fontWeight: "600", gap: "8px", fontSize: "13px" }} htmlFor=""> Name
+              <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                id="username"
+                onChange={handleInputChange}
+                // value={isAuthenticated? user.name: ""}
+                value={userData.username}
+                required
+                autoComplete="off"
+                style={{ textTransform: "none" }}
+              />
+            </label>
+            <label style={{ display: "grid", textAlign: "left", fontWeight: "600", gap: "8px", fontSize: "13px" }} htmlFor=""> Email
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Email"
+                value={userData.email}
+                autoComplete="off"
+                onChange={handleInputChange}
+                required
+                style={{ textTransform: "none" }}
+              /></label>
+            <label style={{ display: "grid", textAlign: "left", fontWeight: "600", gap: "8px", fontSize: "13px" }} htmlFor=""> Message
+              <textarea
+                name="Message"
+                cols="30"
+                rows="10"
+                required
+                autoComplete="off"
+                style={{ textTransform: "none" }}
+                placeholder="Write your message here" /></label>
             <input type="submit" value="send" />
           </form>
         </div>
       </div>
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d117626.64812074947!2d87.79004940234384!3d22.882635789971467!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f81321c9946f95%3A0x3f6368d5588d75e4!2sVIVEKANANDA%20PALLY!5e0!3m2!1sen!2sin!4v1691306706016!5m2!1sen!2sin"
+        width="100%"
+        height="400"
+        style={{ border: 0, paddingTop: 50 }}
+        allowFullScreen=""
+        loading="lazy"
+        title="map"
+        referrerPolicy="no-referrer-when-downgrade"></iframe>
     </Wrapper>
   );
 };
