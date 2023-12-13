@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { AppProvider } from './context/ProductContext';
 import { FilterContextProvider } from './context/filter_context';
 import { CartProvider } from './context/cart_context';
+import { UserProvider } from './context/user_context';
 // import { Auth0Provider } from '@auth0/auth0-react';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -30,16 +31,18 @@ root.render(
   //     </AppProvider>
   //   </React.StrictMode>
   // </Auth0Provider>
-  
-    <React.StrictMode>
-      <AppProvider>
+
+  // <React.StrictMode>
+    <AppProvider>
+      <UserProvider>
         <FilterContextProvider>
           <CartProvider>
             <App />
           </CartProvider>
         </FilterContextProvider>
-      </AppProvider>
-    </React.StrictMode>
+      </UserProvider>
+    </AppProvider>
+  // </React.StrictMode>
 
 );
 reportWebVitals();

@@ -1,53 +1,93 @@
 // PaymentPage.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useCartContext } from "./context/cart_context";
+import { useUserContext } from "./context/user_context";
+// import { useNavigate } from 'react-router-dom';
 const host = process.env.REACT_APP_HOSTNAME;
 
 const PaymentPage = () => {
-    const [userAddress, setUserAddress] = useState({ name: '', email: '', phone: '', alterPhone: '', address: '', state: '', city: '', pin: '', landmark: '' });
-    let navigate = useNavigate();
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [userAddress, setUserAddress] = useState({ name: '', district: '', phone: '', alterPhone: '', vill_houseNo: '', post_office:'', state: '', city: '', pin: '', landmark: '' });
+  const [userDataBul, setUserdataBul] = useState(true);
+  // let navigate = useNavigate();
+  const { cart, total_price, shipping_fee } = useCartContext();
+  const { user, getData } = useUserContext();
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  console.log("user address", user);
+  console.log("cart", cart);
+  // const userAddressall = user.address;
+  useEffect(() => {
+    const ad = user.address;
+    if (ad && Object.keys(ad).length > 0 && userDataBul) {
+      setUserAddress({
+        name: ad.name,
+        district: ad.district || '', // Check if ad.district exists
+        phone: ad.phone,
+        alterPhone: ad.alterPhone || '', // Check if ad.alterPhone exists
+        vill_houseNo: ad.vill_houseNo || '',
+        post_office: ad.post_office || '',
+        state: ad.state || '',
+        city: ad.city || '',
+        pin: ad.pin || '',
+        landmark: ad.landmark || ''
+      });
+      setUserdataBul(false);
+    } else {
+      setUserAddress({
+        name: user.name,
+        phone: user.phone,
+      });
+    }
+  }, [userDataBul]);
 
-    const handleAddressChange = (e) => {
-        const { name, value } = e.target;
-        setUserAddress((prevUserData) => ({
-            ...prevUserData,
-            [name]: value,
-        }));
-    };
+  const handleAddressChange = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    console.log("Changing", name, "to", value);
+    setUserAddress((prevUserData) => ({
+      ...prevUserData,
+      [name]: value,
+    }));
+  };
+  
+  // console.log("user", userAddress);
 
-    const handleSubmit = async (e) => {
-        const { name, email, phone, alterPhone, address, state, city, pin, landmark } = userAddress;
-        e.preventDefault();
-        // API Call
-        const response = await fetch(`${host}/api/auth/createuser`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                name, email, phone, alterPhone, address, state, city, pin, landmark
-            }),
-        });
-        const json = await response.json();
-        if (json.success) {
-            // navigate("/");
-            setIsFormSubmitted(true);
-        } else {
-            // console.log("success = ", json.success);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { name, district, phone, alterPhone, vill_houseNo, post_office, state, city, pin, landmark } = userAddress;
+    // API Call
+    console.log("phone",phone);
+    const response = await fetch(`${host}/api/auth/updateuser/${user.userId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "auth-token": localStorage.getItem("authToken"),
+      },
+      body: JSON.stringify({address: {name, district, phone, alterPhone, vill_houseNo, post_office, state, city, pin, landmark}
+      }),
+    });
+    const json = await response.json();
+    if (response.ok) {
+      // navigate("/");
+      console.log("json", json);
+      setIsFormSubmitted(true);
+      alert("success", json)
+      // setUserdataBul(true);
+    } else {
+      console.log("error = ", json);
+      alert("error",json)
+    }
+  };
 
-    //   const onChange = (e) => {
-    //     setAddress({ ...address, [e.target.name]: e.target.value });
-    //   };
+  //   const onChange = (e) => {
+  //     setAddress({ ...address, [e.target.name]: e.target.value });
+  //   };
 
-    return (<>
-        <Wrapper>
-            <div className="container">
-                <div className="grid grid-two-column">
-                    {/* <div className="hero-section-data">
+  return (<>
+    <Wrapper>
+      <div className="container">
+        <div className="grid grid-two-column">
+          {/* <div className="hero-section-data">
                         <p className="intro-data">Welcome to </p>
                         <h1 className="setStyle" style={{ color: "#410000" }}> {name} </h1>
                         <p> <strong style={{ color: "rgb(9 74 0)" }}>  In the yogic tradition, Rudraksha are considered as the "Tears of Shiva" and not just an accessory or a piece of jewellery. It is seen as an instrument for inner transformation.This guide tells you all you need to know about this sacred seed.</strong></p>
@@ -56,139 +96,162 @@ const PaymentPage = () => {
                         </NavLink>
                     </div> */}
 
-                    <div className="hero-section-data" style={{ "textAlign": "center", }} >
-                        <h2 className="textStyle" >Delivary Address</h2>
-                        <div className="container" style={{ "marginTop": "1rem", "paddingTop": "2px", "paddingLeft": "70px", "paddingRight": "50px", "boxSizing": "border-box", "borderRadius": "10px", "paddingBottom": "5px", "backgroundColor": "rgb(227 245 255 / 28%)" }}>
-                            <form className="formStyle" onSubmit={handleSubmit}>
-                                <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-                                    <label className='label-form' htmlFor="name">Name:*
-                                        <input
-                                            type="text"
-                                            required
-                                            name="name"
-                                            placeholder="ENTER YOUR NAME"
-                                            onChange={handleAddressChange}
-                                            id="name"
-                                            style={{ textTransform: "none" }}
-                                            aria-describedby="nameHelp"
-                                        /></label>
-                                    <label className='label-form' htmlFor="email">Email:
-                                        <input
-                                            type="email"
-                                            required
-                                            name="email"
-                                            placeholder="EMAIL ADDRESS"
-                                            onChange={handleAddressChange}
-                                            style={{ textTransform: "none" }}
-                                            id="email"
-                                            aria-describedby="emailHelp"
-                                        /></label></div>
-                                <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-                                    <label className='label-form' htmlFor="phone">Phone Number:
-                                        <input
-                                            type="mobile"
-                                            required
-                                            name="phone"
-                                            placeholder="MOBILE NUMBER (only 10 digits required)"
-                                            onChange={handleAddressChange}
-                                            maxLength={10}
-                                            id="phone"
-                                            style={{ textTransform: "none" }}
-                                            aria-describedby="mobileHelp"
-                                        /></label>
-                                    <label className='label-form' htmlFor="phone">Alternative Phone Number:
-                                        <input
-                                            type="mobile"
-                                            required
-                                            name="alterPhone"
-                                            placeholder="ALTERNATIVE MOBILE NUMBER"
-                                            onChange={handleAddressChange}
-                                            maxLength={10}
-                                            id="alterPhone"
-                                            style={{ textTransform: "none" }}
-                                            aria-describedby="mobileHelp"
-                                        /></label></div>
-                                <div style={{ display: "flex", flexDirection: "row", gap: "20px", width: "100%" }}>
-                                    <label className='label-form' htmlFor="phone">Address:
-                                        <input
-                                            type="text"
-                                            required
-                                            minLength={5}
-                                            name="address"
-                                            placeholder="ENTER YOUR ADDRESS"
-                                            onChange={handleAddressChange}
-                                            style={{ textTransform: "none", width: "100%" }}
-                                            id="address"
-                                        /></label></div>
-                                <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-                                    <label className='label-form' htmlFor="phone">State:
-                                        <input
-                                            type="text"
-                                            required
-                                            minLength={5}
-                                            name="state"
-                                            placeholder="STATE"
-                                            onChange={handleAddressChange}
-                                            style={{ textTransform: "none" }}
-                                            id="state"
-                                        /></label>
-                                    <label className='label-form' htmlFor="phone">City:
-                                        <input
-                                            type="text"
-                                            required
-                                            minLength={5}
-                                            name="city"
-                                            placeholder="CITY"
-                                            onChange={handleAddressChange}
-                                            style={{ textTransform: "none" }}
-                                            id="city"
-                                        /></label></div>
-                                <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
-                                    <label className='label-form' htmlFor="phone">Pin:
-                                        <input
-                                            type="text"
-                                            required
-                                            minLength={5}
-                                            name="pin"
-                                            placeholder="PIN CODE"
-                                            onChange={handleAddressChange}
-                                            style={{ textTransform: "none" }}
-                                            id="pin"
-                                        /></label>
-                                    <label className='label-form' htmlFor="phone">Landmark:
-                                        <input
-                                            type="text"
-                                            required
-                                            minLength={5}
-                                            name="landmark"
-                                            placeholder="LANDMARK"
-                                            onChange={handleAddressChange}
-                                            style={{ textTransform: "none" }}
-                                            id="landmark"
-                                        /></label></div>
-
-                                <input
-                                    type="submit"
-                                    className="contactInputs"
-                                    value="ADD ADDRESS"
-                                />
-                            </form>
-                        </div>
-                    </div>
-
-                    <div style={{ flex: 1, padding: '20px' }}>
-                        <h2>Subtotal</h2>
-                        <button disabled={!isFormSubmitted}>Pay Now</button>
-                    </div>
+          <div className="hero-section-data" style={{ "textAlign": "center", }} >
+            <h2 className="textStyle" >Delivary Address</h2>
+            <div className="container" style={{ "marginTop": "1rem", "paddingTop": "1px", "paddingLeft": "70px", "paddingRight": "50px", "boxSizing": "border-box", "borderRadius": "10px", "paddingBottom": "1px", "backgroundColor": "rgb(227 245 255 / 28%)" }}>
+              <form className="formStyle" onSubmit={handleSubmit}>
+                <div style={{ display: "flex", flexDirection: "row", gap: "20px", width: "100%" }}>
+                  <label className='label-form' htmlFor="name">Name:*
+                    <input
+                      type="text"
+                      value={userAddress.name}
+                      required
+                      name="name"
+                      placeholder="ENTER YOUR NAME"
+                      onChange={handleAddressChange}
+                      id="name"
+                      style={{ textTransform: "none", width: "100%" }}
+                      aria-describedby="nameHelp"
+                    /></label>
                 </div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+                  <label className='label-form' htmlFor="phone">Phone Number:
+                    <input
+                      type="mobile"
+                      value={userAddress.phone}
+                      required
+                      name="phone"
+                      placeholder="MOBILE NUMBER (only 10 digits required)"
+                      onChange={handleAddressChange}
+                      maxLength={11}
+                      id="phone"
+                      style={{ textTransform: "none" }}
+                      aria-describedby="phoneHelp"
+                    /></label>
+                  <label className='label-form' htmlFor="phone">Alternative Phone Number:
+                    <input
+                      type="mobile"
+                      value={userAddress.alterPhone}
+                      name="alterPhone"
+                      placeholder="ALTERNATIVE MOBILE NUMBER"
+                      onChange={handleAddressChange}
+                      maxLength={10}
+                      id="alterPhone"
+                      style={{ textTransform: "none" }}
+                      aria-describedby="mobileHelp"
+                    /></label></div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "20px", width: "100%" }}>
+                  <label className='label-form' htmlFor="phone">Village /House No. /Flat:
+                    <input
+                      type="text"
+                      value={userAddress.vill_houseNo}
+                      required
+                      minLength={5}
+                      name="vill_houseNo_flat_buildingName"
+                      placeholder="Village/House No./Flat/Building Name"
+                      onChange={handleAddressChange}
+                      style={{ textTransform: "none", width: "100%" }}
+                      id="vill_houseNo_flat_buildingName"
+                    /></label>
+                  <label className='label-form' htmlFor="phone">Post Office:
+                    <input
+                      type="text"
+                      value={userAddress.post_office}
+                      required
+                      minLength={2}
+                      name="post_office"
+                      placeholder="Post Office"
+                      onChange={handleAddressChange}
+                      style={{ textTransform: "none", width: "100%" }}
+                      id="post_office"
+                    /></label>
+                    </div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+                  <label className='label-form' htmlFor="phone">State:
+                    <input
+                      type="text"
+                      value={userAddress.state}
+                      required
+                      minLength={5}
+                      name="state"
+                      placeholder="STATE"
+                      onChange={handleAddressChange}
+                      style={{ textTransform: "none" }}
+                      id="state"
+                    /></label>
+                  <label className='label-form' htmlFor="district">District:
+                    <input
+                      type="text"
+                      value={userAddress.district}
+                      required
+                      name="district"
+                      placeholder="DISTRICT"
+                      onChange={handleAddressChange}
+                      style={{ textTransform: "none" }}
+                      id="district"
+                      aria-describedby="districtHelp"
+                    /></label>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
+                  <label className='label-form' htmlFor="phone">City:
+                    <input
+                      type="text"
+                      value={userAddress.city}
+                      required
+                      minLength={5}
+                      name="city"
+                      placeholder="CITY"
+                      onChange={handleAddressChange}
+                      style={{ textTransform: "none" }}
+                      id="city"
+                    /></label>
+                  <label className='label-form' htmlFor="phone">Pin:
+                    <input
+                      type="text"
+                      value={userAddress.pin}
+                      required
+                      minLength={5}
+                      name="pin"
+                      placeholder="PIN CODE"
+                      onChange={handleAddressChange}
+                      style={{ textTransform: "none" }}
+                      id="pin"
+                    /></label>
+                </div>
+                <div style={{ display: "flex", flexDirection: "row", gap: "20px", width: "100%" }}>
+                  <label className='label-form' htmlFor="phone">Landmark:
+                    <input
+                      type="text"
+                      value={userAddress.landmark}
+                      minLength={5}
+                      name="landmark"
+                      placeholder="LANDMARK"
+                      onChange={handleAddressChange}
+                      style={{ textTransform: "none", width: "100%" }}
+                      id="landmark"
+                    /></label></div>
+                <input
+                  type="submit"
+                  className="contactInputs"
+                  value="CONFIRM"
+                />
+              </form>
             </div>
-        </Wrapper>
-    </>
-    );
+          </div>
+
+          <div style={{ flex: 1, padding: '20px', alignItems: "center", textAlign: "center" }}>
+            <h2>Subtotal</h2>
+            <button disabled={!isFormSubmitted}>Pay Now</button>
+          </div>
+        </div>
+      </div>
+    </Wrapper>
+  </>
+  );
 };
 
 const Wrapper = styled.section`
-  padding: 12rem 0;
+  padding: 4rem 0;
 
   img {
     min-width: 10rem;

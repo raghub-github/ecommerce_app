@@ -5,6 +5,7 @@ const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const host = process.env.REACT_APP_HOSTNAME;
   const [cart, setCart] = useState([]);
+  // const [userID, setUserID] = useState("");
 
   const getLocalCartData = async () => {
     // API Call
@@ -34,17 +35,25 @@ const CartProvider = ({ children }) => {
         company,
       }));
       if (!Array.isArray(newUserData)) return [];
-      else return newUserData;
+      else {
+        dispatch({ type: "UPDATE_CART", payload: newUserData });
+        return newUserData;
+      }
     } catch (error) {
       console.error("Error parsing local cart data:", error);
       return [];
     }
   };
 
+  const clearLogoutCart = () => {
+    dispatch({ type: "CLEAR_CART" });
+  };
+
   const getData = async () => {
     try {
       const cartData = await getLocalCartData();
       setCart(cartData);
+      // setUserID(cartData[0].user);
       localStorage.setItem("userCartData", (JSON.stringify(cartData)));
     } catch (error) {
       console.error("Error getting cart data:", error);
@@ -123,7 +132,6 @@ const CartProvider = ({ children }) => {
               console.error("Error updating cart data:", error);
             }
           };
-
           editCart(curElem.nid, newAmount);
           // setCart(...cart, { ...curElem, amount: newAmount });
           return {
@@ -189,7 +197,6 @@ const CartProvider = ({ children }) => {
           console.error("Error adding cart data:", error);
         }
       };
-
       // const cartdata = JSON.stringify((cartProduct))
       if (localStorage.getItem("authToken")) {
         addCart(cartProduct.amount, cartProduct.color, cartProduct.price, cartProduct.image, cartProduct.max, cartProduct.name, cartProduct._id, cartProduct.category, cartProduct.company);
@@ -201,7 +208,6 @@ const CartProvider = ({ children }) => {
       //   cart: [...initialState.cart, cartProduct],
       // };
     }
-    // dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company } });
   };
 
   // increment and decrement the product
@@ -327,7 +333,7 @@ const CartProvider = ({ children }) => {
   // get vs set
   useEffect(() => {
     dispatch({ type: "CART_ITEM_PRICE_TOTAL" });
-    localStorage.setItem("userCartData", (JSON.stringify(state.cart)));
+    localStorage.setItem("userCartData", JSON.stringify(state.cart));
   }, [state.cart]);
 
   return (
@@ -339,6 +345,8 @@ const CartProvider = ({ children }) => {
         clearCart,
         setDecrease,
         setIncrement,
+        getData,
+        clearLogoutCart,
       }}>
       {children}
     </CartContext.Provider>

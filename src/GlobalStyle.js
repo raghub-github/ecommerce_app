@@ -43,7 +43,6 @@ h2,
 h3,
 h4 {
    font-family: "Work Sans", sans-serif;
-
 }
 
 h1 {
@@ -57,7 +56,6 @@ h1 {
    font-size: 4.4rem;
    font-weight: 300;
    white-space: normal;
-  
   }
 
 h3 {

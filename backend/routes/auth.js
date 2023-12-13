@@ -14,6 +14,7 @@ router.post(
     body("name", "enter a valid name").isLength({ min: 3 }),
     body("email", "enter a valid email").isEmail(),
     body("mobile", "enter a valid mobile number"),
+    body("address", "enter a valid address"),
     body("password", "Your password must be atleast 5 characters").isLength({
       min: 5,
     }),
@@ -22,7 +23,7 @@ router.post(
   // If there are error-> return a bad request and the error
   async (req, res) => {
     let success = false;
-    console.log("user created", req, res);
+    // console.log("user created", req, res);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ success, errors: errors.array() });
@@ -32,9 +33,10 @@ router.post(
     try {
       const user = await User.create({
         name: req.body.name,
-        email: req.body.email, 
+        email: req.body.email,
         mobile: req.body.mobile,
         password: secPass,
+        address: req.body.address,
       });
       const data = {
         user: {
@@ -115,4 +117,33 @@ router.post("/getuser", fetchuser, async (req, res) => {
     res.status(500).send("Internal server error");
   }
 });
+
+router.put("/updateuser/:id", fetchuser, async (req, res) => {
+  const { address } = req.body;
+  try {
+    // Create a new cart Object
+    const newUser = {};
+    if (address) {
+      newUser.address = address;
+    }
+    // Find the user to be updated and update it 
+    let user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json("User Not Found");
+    }
+    // if (user._id.toString() !== req.user.id) {
+    //   return res.status(401).json("User Not Allowed");
+    // }
+    user = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: newUser },
+      { new: true }
+    ).select("-password");
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json("Internal server error");
+  }
+});
+
 module.exports = router;

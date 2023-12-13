@@ -90,6 +90,14 @@ const cartReducer = (state, action) => {
     };
   }
 
+  // to set the UPDATE_CART
+  if (action.type === "UPDATE_CART") {
+    return {
+      ...state,
+      cart: action.payload,
+    };
+  };
+
   // to empty or to clear to cart
   if (action.type === "CLEAR_CART") {
     return {

@@ -49,7 +49,7 @@ const Signup = (props) => {
   return (
     <div style={{ "padding": "4rem 0 4rem 0", "textAlign": "center" }} >
       <h2 className="App textStyle" >Create an account to use Rudraksha Store</h2>
-      <div className="container" style={{ "marginTop": "5rem", "paddingTop":"60px","paddingLeft":"50px","paddingRight":"50px", "boxSizing":"border-box","borderRadius":"10px", "paddingBottom":"50px", "backgroundColor":"rgb(227 245 255 / 28%)" }}>
+      <div className="container" style={{ "marginTop": "5rem", "paddingTop": "60px", "paddingLeft": "50px", "paddingRight": "50px", "boxSizing": "border-box", "borderRadius": "10px", "paddingBottom": "50px", "backgroundColor": "rgb(227 245 255 / 28%)" }}>
         <form className="formStyle" onSubmit={handleSubmit}>
           <input
             type="text"

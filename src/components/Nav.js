@@ -11,13 +11,14 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Nav = () => {
   const [menuIcon, setMenuIcon] = useState();
-  const { total_item } = useCartContext();
+  const { total_item, clearLogoutCart } = useCartContext();
   // const { loginWithRedirect, logout, isAuthenticated } = useAuth0();
 
   let location = useLocation();
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    clearLogoutCart();
     navigate("/login");
   };
   const Nav = styled.nav`

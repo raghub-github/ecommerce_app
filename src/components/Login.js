@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
+import { useCartContext } from "../context/cart_context";
+
 // const host = "http://localhost:3001";
 const host = process.env.REACT_APP_HOSTNAME;
 
 const Login = (props) => {
-
+  const { getData, cart } = useCartContext();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -26,8 +28,11 @@ const Login = (props) => {
     });
     const json = await response.json();
     if (json.success) {
-      localStorage.setItem("authToken", json.authToken);
-      props.showAlert("logged In Successfully", "success");
+      await localStorage.setItem("authToken", json.authToken);
+      // props.showAlert("logged In Successfully", "success");
+      console.log(json.authToken);
+      await getData();
+      console.log(cart);
       navigate("/");
     } else {
       props.showAlert("Invalid credentials", "danger");
