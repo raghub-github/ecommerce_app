@@ -16,7 +16,6 @@ const UserProvider = ({ children }) => {
     // Authentication
     const userAuthentication = async () => {
         try {
-            console.log("Before fetch");
             const response = await fetch(`${host}/api/auth/getuser`, {
                 method: "POST",
                 headers: {
@@ -26,7 +25,6 @@ const UserProvider = ({ children }) => {
             });
             if (response.ok) {
                 const data = await response.json();
-                console.log("Data from server:", data.email);
                 const redata = {
                     userId: data._id,
                     name: data.name,
@@ -42,8 +40,6 @@ const UserProvider = ({ children }) => {
                 //     address: redata.address,
                 // });
                 dispatch({ type: "USER_DETAILS", payload: redata });
-                // console.log("User state:", user);
-                // return redata;
             } else {
                 console.error("Response not OK:", response);
             }
@@ -52,8 +48,6 @@ const UserProvider = ({ children }) => {
         }
     };
 
-
-    // userAuthentication();
     const getData = () => {
         try {
             userAuthentication();
@@ -69,13 +63,9 @@ const UserProvider = ({ children }) => {
 
 
     const initialState = {
-        user:{},
+        user: {},
     };
     const [state, dispatch] = useReducer(reducer, initialState);
-
-    // useEffect(() => {
-    //     dispatch({ type: "USER_DETAILS", payload: user });
-    // }, [state.user]);
 
     return (
         <UserContext.Provider

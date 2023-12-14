@@ -7,14 +7,15 @@ import { useUserContext } from "./context/user_context";
 const host = process.env.REACT_APP_HOSTNAME;
 
 const PaymentPage = () => {
-  const [userAddress, setUserAddress] = useState({ name: '', district: '', phone: '', alterPhone: '', vill_houseNo: '', post_office:'', state: '', city: '', pin: '', landmark: '' });
+  const [userAddress, setUserAddress] = useState({ name: '', district: '', phone: '', alterPhone: '', vill_houseNo: '', post_office: '', state: '', city: '', pin: '', landmark: '' });
   const [userDataBul, setUserdataBul] = useState(true);
   // let navigate = useNavigate();
   const { cart, total_price, shipping_fee } = useCartContext();
   const { user, getData } = useUserContext();
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  console.log("user address", user);
-  console.log("cart", cart);
+  // console.log("user ", user);
+  // console.log("user address", userAddress);
+  // console.log("cart", cart);
   // const userAddressall = user.address;
   useEffect(() => {
     const ad = user.address;
@@ -32,13 +33,22 @@ const PaymentPage = () => {
         landmark: ad.landmark || ''
       });
       setUserdataBul(false);
-    } else {
-      setUserAddress({
-        name: user.name,
-        phone: user.phone,
-      });
-    }
-  }, [userDataBul]);
+    } 
+    // else {
+    //   setUserAddress({
+    //     name: (user.name || ''),
+    //     phone: (user.phone || ''),
+    //     // district: '',
+    //     // alterPhone: '',
+    //     // vill_houseNo: '',
+    //     // post_office: '',
+    //     // state: '',
+    //     // city: '',
+    //     // pin: '',
+    //     // landmark: ''
+    //   });
+    // }
+  }, [user,userDataBul]);
 
   const handleAddressChange = (e) => {
     e.preventDefault();
@@ -49,39 +59,33 @@ const PaymentPage = () => {
       [name]: value,
     }));
   };
-  
-  // console.log("user", userAddress);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { name, district, phone, alterPhone, vill_houseNo, post_office, state, city, pin, landmark } = userAddress;
     // API Call
-    console.log("phone",phone);
     const response = await fetch(`${host}/api/auth/updateuser/${user.userId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token": localStorage.getItem("authToken"),
       },
-      body: JSON.stringify({address: {name, district, phone, alterPhone, vill_houseNo, post_office, state, city, pin, landmark}
+      body: JSON.stringify({
+        address: { name, district, phone, alterPhone, vill_houseNo, post_office, state, city, pin, landmark }
       }),
     });
     const json = await response.json();
     if (response.ok) {
       // navigate("/");
-      console.log("json", json);
+      getData();
       setIsFormSubmitted(true);
-      alert("success", json)
+      alert("success", json);
       // setUserdataBul(true);
     } else {
       console.log("error = ", json);
-      alert("error",json)
+      alert("error", json)
     }
   };
-
-  //   const onChange = (e) => {
-  //     setAddress({ ...address, [e.target.name]: e.target.value });
-  //   };
 
   return (<>
     <Wrapper>
@@ -146,33 +150,33 @@ const PaymentPage = () => {
                       type="text"
                       value={userAddress.vill_houseNo}
                       required
-                      minLength={5}
-                      name="vill_houseNo_flat_buildingName"
+                      minLength={4}
+                      name="vill_houseNo"
                       placeholder="Village/House No./Flat/Building Name"
                       onChange={handleAddressChange}
                       style={{ textTransform: "none", width: "100%" }}
-                      id="vill_houseNo_flat_buildingName"
+                      id="vill_houseNo"
                     /></label>
                   <label className='label-form' htmlFor="phone">Post Office:
                     <input
                       type="text"
                       value={userAddress.post_office}
                       required
-                      minLength={2}
+                      minLength={4}
                       name="post_office"
                       placeholder="Post Office"
                       onChange={handleAddressChange}
                       style={{ textTransform: "none", width: "100%" }}
                       id="post_office"
                     /></label>
-                    </div>
+                </div>
                 <div style={{ display: "flex", flexDirection: "row", gap: "20px" }}>
                   <label className='label-form' htmlFor="phone">State:
                     <input
                       type="text"
                       value={userAddress.state}
                       required
-                      minLength={5}
+                      minLength={2}
                       name="state"
                       placeholder="STATE"
                       onChange={handleAddressChange}
@@ -198,7 +202,7 @@ const PaymentPage = () => {
                       type="text"
                       value={userAddress.city}
                       required
-                      minLength={5}
+                      minLength={2}
                       name="city"
                       placeholder="CITY"
                       onChange={handleAddressChange}
@@ -210,7 +214,8 @@ const PaymentPage = () => {
                       type="text"
                       value={userAddress.pin}
                       required
-                      minLength={5}
+                      minLength={6}
+                      maxLength={6}
                       name="pin"
                       placeholder="PIN CODE"
                       onChange={handleAddressChange}
@@ -223,18 +228,18 @@ const PaymentPage = () => {
                     <input
                       type="text"
                       value={userAddress.landmark}
-                      minLength={5}
                       name="landmark"
                       placeholder="LANDMARK"
                       onChange={handleAddressChange}
                       style={{ textTransform: "none", width: "100%" }}
                       id="landmark"
                     /></label></div>
-                <input
+                {/* <input
                   type="submit"
                   className="contactInputs"
                   value="CONFIRM"
-                />
+                /> */}
+                <button type='submit' className="contactInputs" style={{color:"white", borderColor:"rgb(98, 84, 243)" , backgroundColor:"rgb(98, 84, 243)", paddingRight:"25px", paddingLeft:"25px", paddingTop:"12px", paddingBottom:"12px"}}>CONFIRM</button>
               </form>
             </div>
           </div>
