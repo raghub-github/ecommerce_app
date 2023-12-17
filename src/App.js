@@ -69,12 +69,12 @@ const App = () => {
           <Route
             exact
             path="/login"
-            element={<Login showAlert={showAlert} />}
+            element={<Login />}
           />
           <Route
             exact
             path="/signup"
-            element={<Signup showAlert={showAlert} />}
+            element={<Signup />}
           />
           <Route exact path="/cart" element={<Cart />} />
           <Route exact path="/payment" element={<PaymentPage />} />

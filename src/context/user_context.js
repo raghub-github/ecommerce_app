@@ -5,13 +5,6 @@ const UserContext = createContext();
 const UserProvider = ({ children }) => {
     const host = process.env.REACT_APP_HOSTNAME;
     //   const [userID, setUserID] = useState("");
-    // const [user, setUser] = useState({
-    //     userId: "",
-    //     name: "",
-    //     email: "",
-    //     mobile: "",
-    //     address: {},
-    // });
 
     // Authentication
     const userAuthentication = async () => {
@@ -32,13 +25,6 @@ const UserProvider = ({ children }) => {
                     mobile: data.mobile,
                     address: data.address ? data.address : {},
                 }
-                // setUser({
-                //     userId: redata._id,
-                //     name: redata.name,
-                //     email: redata.email,
-                //     mobile: redata.mobile,
-                //     address: redata.address,
-                // });
                 dispatch({ type: "USER_DETAILS", payload: redata });
             } else {
                 console.error("Response not OK:", response);

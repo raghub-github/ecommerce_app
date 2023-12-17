@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import { useCartContext } from "../context/cart_context";
+import { toast } from "react-toastify";
 
-// const host = "http://localhost:3001";
 const host = process.env.REACT_APP_HOSTNAME;
 
-const Login = (props) => {
-  const { getData, cart } = useCartContext();
+const Login = () => {
+  const { getData } = useCartContext();
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
@@ -28,14 +28,12 @@ const Login = (props) => {
     });
     const json = await response.json();
     if (json.success) {
-      await localStorage.setItem("authToken", json.authToken);
-      // props.showAlert("logged In Successfully", "success");
-      console.log(json.authToken);
+      localStorage.setItem("authToken", json.authToken);
       await getData();
-      console.log(cart);
+      toast.success("Login Successful");
       navigate("/");
     } else {
-      props.showAlert("Invalid credentials", "danger");
+      toast.error(`${json.error ? json.error : "Error"}`);
     }
   };
   const onChange = (e) => {

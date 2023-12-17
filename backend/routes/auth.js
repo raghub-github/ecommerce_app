@@ -13,7 +13,7 @@ router.post(
   [
     body("name", "enter a valid name").isLength({ min: 3 }),
     body("email", "enter a valid email").isEmail(),
-    body("mobile", "enter a valid mobile number"),
+    body("mobile", "enter a valid mobile number").isLength({ max: 10 }),
     body("address", "enter a valid address"),
     body("password", "Your password must be atleast 5 characters").isLength({
       min: 5,
@@ -26,7 +26,8 @@ router.post(
     // console.log("user created", req, res);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ success, errors: errors.array() });
+      // return res.status(400).json({ success, errors: (errors.array()) });
+      return res.status(400).json({ success, error: errors.array()[0].msg });
     }
     const salt = await bcrypt.genSalt(10);
     const secPass = await bcrypt.hash(req.body.password, salt);
@@ -53,7 +54,7 @@ router.post(
         // Check whether the user with email exists already
         return res.status(400).json({ success, error: "Email already exists" });
       }
-      console.error(error);
+      // console.error(error);
       res.status(500).json({ success, error: "Server error" });
     }
   }
@@ -71,7 +72,8 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       success = false;
-      return res.status(400).json({ success, errors: errors.array() });
+      // return res.status(400).json({ success, errors: errors.array() });
+      return res.status(400).json({ success, error: errors.array()[0].msg });
     };
     const { email, password } = req.body;
     try {
@@ -100,8 +102,8 @@ router.post(
       success = true;
       res.json({ success, authToken });
     } catch (error) {
-      console.error(error.message);
-      res.status(500).send(success, "Internal server error");
+      // console.error(error.message);
+      res.status(500).send({ success, error: "Internal server error" });
     }
   }
 );
@@ -129,7 +131,7 @@ router.put("/updateuser/:id", fetchuser, async (req, res) => {
     // Find the user to be updated and update it 
     let user = await User.findById(req.params.id);
     if (!user) {
-      return res.status(404).json("User Not Found");
+      return res.status(404).json({ error: "User Not Found" });
     }
     // if (user._id.toString() !== req.user.id) {
     //   return res.status(401).json("User Not Allowed");
@@ -142,7 +144,7 @@ router.put("/updateuser/:id", fetchuser, async (req, res) => {
     res.json(user);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json("Internal server error");
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 

@@ -6,6 +6,7 @@ import { CgMenu, CgClose } from "react-icons/cg";
 import { useCartContext } from "../context/cart_context";
 // import { useAuth0 } from "@auth0/auth0-react";
 import { Button } from "../styles/Button";
+import { toast } from "react-toastify";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 
@@ -18,6 +19,7 @@ const Nav = () => {
   const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    toast.success("User logged out");
     clearLogoutCart();
     navigate("/login");
   };

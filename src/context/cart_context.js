@@ -1,11 +1,11 @@
 import { createContext, useContext, useReducer, useEffect, useState } from "react";
 import reducer from "../reducer/cartReducer";
+import { toast } from "react-toastify";
 const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
   const host = process.env.REACT_APP_HOSTNAME;
   const [cart, setCart] = useState([]);
-  // const [userID, setUserID] = useState("");
 
   const getLocalCartData = async () => {
     // API Call
@@ -53,7 +53,6 @@ const CartProvider = ({ children }) => {
     try {
       const cartData = await getLocalCartData();
       setCart(cartData);
-      // setUserID(cartData[0].user);
       localStorage.setItem("userCartData", (JSON.stringify(cartData)));
     } catch (error) {
       console.error("Error getting cart data:", error);
@@ -67,19 +66,6 @@ const CartProvider = ({ children }) => {
     fetchData();
     //eslint-disable-next-line
   }, []); // Run once on component mount
-
-  // const getLocalCartData1 = () => {
-  //   const localCartData = localStorage.getItem("userCartData");
-  //   if (!localCartData) return [];
-  //   try {
-  //     const parsedData = JSON.parse(localCartData);
-  //     if (!Array.isArray(parsedData)) return [];
-  //     return parsedData;
-  //   } catch (error) {
-  //     console.error("Error parsing local cart data:", error);
-  //     return [];
-  //   }
-  // };
 
   const initialState = {
     cart: localStorage.getItem("authToken") ? cart : [],
@@ -110,8 +96,9 @@ const CartProvider = ({ children }) => {
                 },
                 body: JSON.stringify({ newAmount }),
               });
+              const json = await response.json();
               if (response.ok) {
-                const json = await response.json();
+                toast.success("Item updated successfully");
                 dispatch({
                   type: "ADD_TO_CART",
                   payload: {
@@ -126,14 +113,15 @@ const CartProvider = ({ children }) => {
                   },
                 });
               } else {
+                toast.error(`${json.error}`);
                 console.error("Failed to update cart data on the server");
               }
             } catch (error) {
+              toast.error("Server error");
               console.error("Error updating cart data:", error);
             }
           };
           editCart(curElem.nid, newAmount);
-          // setCart(...cart, { ...curElem, amount: newAmount });
           return {
             ...curElem,
             amount: newAmount,
@@ -142,12 +130,7 @@ const CartProvider = ({ children }) => {
           return curElem;
         }
       });
-      // const updatedCart = [...cart, updatedProduct]; // Add the new item to the cart
       setCart(updatedProduct);
-      // return {
-      //   ...initialState,
-      //   cart: updatedProduct,
-      // };
     } else {
       let cartProduct = {
         _id: _id + color,
@@ -170,8 +153,8 @@ const CartProvider = ({ children }) => {
             },
             body: JSON.stringify({ amount, color, price, image, max, name, _pid, category, company }),
           });
+          const responseData = await response.json();
           if (response.ok) {
-            const responseData = await response.json();
             const newUserData = {
               amount: responseData.amount,
               color: responseData.color,
@@ -189,24 +172,20 @@ const CartProvider = ({ children }) => {
             setCart(updatedCart);
             const user = responseData.user;
             const _proid = responseData._id;
+            toast.success("Item successfully added in the cart");
             dispatch({ type: "ADD_TO_CART", payload: { _id, color, amount, product, category, company, user, nid: _proid } });
           } else {
+            toast.error(`${responseData.error}`);
             console.error("Failed to add cart data to the server");
           }
         } catch (error) {
+          toast.error("Server error");
           console.error("Error adding cart data:", error);
         }
       };
-      // const cartdata = JSON.stringify((cartProduct))
       if (localStorage.getItem("authToken")) {
         addCart(cartProduct.amount, cartProduct.color, cartProduct.price, cartProduct.image, cartProduct.max, cartProduct.name, cartProduct._id, cartProduct.category, cartProduct.company);
-        // cartProduct.forEach(({ amount, color, price, image, max, name, _id }) => {
-        // });
       }
-      // return {
-      //   ...initialState,
-      //   cart: [...initialState.cart, cartProduct],
-      // };
     }
   };
 
@@ -230,6 +209,11 @@ const CartProvider = ({ children }) => {
             body: JSON.stringify({ newAmount }),
           });
           const json = await response.json();
+          if (response.ok) {
+            toast.success("Cart amount updated successfully");
+          } else {
+            toast.error(`${json.error}`);
+          }
         };
         editCart(curElem.nid, decAmount);
         return {
@@ -263,6 +247,11 @@ const CartProvider = ({ children }) => {
             body: JSON.stringify({ newAmount }),
           });
           const json = await response.json();
+          if (response.ok) {
+            toast.success("Cart amount updated successfully");
+          } else {
+            toast.error(`${json.error}`);
+          }
         };
         editCart(curElem.nid, incAmount);
         return {
@@ -294,11 +283,12 @@ const CartProvider = ({ children }) => {
         });
         const json = await response.json();
         if (response.ok) {
+          toast.success("Item removed successfully");
         } else {
-          console.error("Failed to delete cart data from the server");
+          toast.error(`${json.error}`);
         }
       } catch (error) {
-        console.error("Error deleting cart data:", error);
+        toast.error("Server error");
       }
     };
     // Call deleteCart for the specific item
@@ -313,15 +303,21 @@ const CartProvider = ({ children }) => {
     dispatch({ type: "CLEAR_CART" });
     const deleteall = async () => {
       try {
-        await fetch(`${host}/api/carts/deleteallcarts`, {
+        const response = await fetch(`${host}/api/carts/deleteallcarts`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
             "auth-token": localStorage.getItem("authToken"),
           },
         });
+        const json = await response.json();
+        if (response.ok) {
+          toast.success("All item removed successfully");
+        } else {
+          toast.error(`${json.error}`);
+        }
       } catch (error) {
-        console.error("Error deleteing cart data:", error);
+        toast.error("Server error");
       }
     };
     if (localStorage.getItem("authToken") && cart.length > 0) {

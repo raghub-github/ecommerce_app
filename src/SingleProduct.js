@@ -11,8 +11,6 @@ import { TbTruckDelivery, TbReplace } from "react-icons/tb";
 import Star from "./components/Stars";
 import AddToCart from "./components/AddToCart";
 
-// const API = "https://api.pujakaitem.com/api/products";
-// const API = "http://localhost:3001/api/products";
 const API = `${process.env.REACT_APP_HOSTNAME}/api/products`;
 
 const SingleProduct = () => {
@@ -82,9 +80,6 @@ const SingleProduct = () => {
                     Available:
                     <span style={{ color: "green" }}> {elm.stock > 0 ? "In Stock" : "Not Available"}</span>
                   </p>
-                  {/* <p>
-                ID : <span> {elm._id} </span>
-              </p> */}
                   <p>
                     Brand :<span> {elm.company} </span>
                   </p>

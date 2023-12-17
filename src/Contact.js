@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import { useUserContext } from "./context/user_context";
+import { toast } from "react-toastify";
 // import { useAuth0 } from "@auth0/auth0-react";
-const host = process.env.REACT_APP_HOSTNAME;
+// const host = process.env.REACT_APP_HOSTNAME;
 
 const Contact = () => {
   const Wrapper = styled.section`
@@ -44,47 +45,42 @@ const Contact = () => {
   `;
 
   // const { user, isAuthenticated } = useAuth0();
-  const [userData, setUserData] = useState({ username: '', email: '' });
-
-  const getUserData = async () => {
-    try {
-      const response = await fetch(`${host}/api/auth/getuser`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "auth-token": localStorage.getItem("authToken"),
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        if (data) {
-          setUserData({ username: data.name, email: data.email });
-        } else {
-          setUserData({ username: '', email: '' });
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching user data", error);
-    }
-  };
+  const { user } = useUserContext();
+  // const [message, setMessage] = useState({message:""});
+  const [userData, setUserData] = useState({ username: '', mobile: '', email: '' });
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      if (localStorage.getItem("authToken")) {
-        await getUserData();
+    const fetchUserData = () => {
+      if (localStorage.getItem("authToken") && user) {
+        setUserData({
+          username: user.name,
+          email: user.email,
+          mobile: user.mobile || ''
+        });
       } else {
         // Reset user data if auth-token is not present
-        setUserData({ username: '', email: '' });
+        setUserData({ username: '', email: '', mobile: '' });
       }
     };
     fetchUserData();
-  }, []);
+  }, [user]);
 
   const handleInputChange = (e) => {
     // const { name, value } = e.target;
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
+  // const handleInputChange = (e) => {
+  //   e.preventDefault();
+  //   const { name, value } = e.target;
+  //   if (name === 'message') {
+  //     setMessage(value);
+  //   } else {
+  //     setUserData((prevUserData) => ({
+  //       ...prevUserData,
+  //       [name]: value,
+  //     }));
+  //   }
+  // };
 
   return (
     <Wrapper>
@@ -95,21 +91,32 @@ const Contact = () => {
             action="https://formspree.io/f/xrgwewve"
             method="POST"
             className="contact-inputs">
-            <label style={{ display: "grid", textAlign: "left", fontWeight: "600", gap: "8px", fontSize: "13px" }} htmlFor=""> Name
+            <label className="label-form" htmlFor=""> Name
               <input
                 type="text"
                 placeholder="Username"
                 name="username"
                 id="username"
                 onChange={handleInputChange}
-                // value={isAuthenticated? user.name: ""}
                 value={userData.username}
                 required
                 autoComplete="off"
                 style={{ textTransform: "none" }}
               />
             </label>
-            <label style={{ display: "grid", textAlign: "left", fontWeight: "600", gap: "8px", fontSize: "13px" }} htmlFor=""> Email
+            <label className="label-form" htmlFor=""> Mobile
+              <input
+                type="mobile"
+                name="mobile"
+                id="mobile"
+                placeholder="Mobile Number"
+                value={userData.mobile}
+                autoComplete="off"
+                onChange={handleInputChange}
+                required
+                style={{ textTransform: "none" }}
+              /></label>
+            <label className="label-form" htmlFor=""> Email
               <input
                 type="email"
                 name="email"
@@ -121,16 +128,27 @@ const Contact = () => {
                 required
                 style={{ textTransform: "none" }}
               /></label>
-            <label style={{ display: "grid", textAlign: "left", fontWeight: "600", gap: "8px", fontSize: "13px" }} htmlFor=""> Message
+            <label className="label-form" htmlFor=""> Message
               <textarea
-                name="Message"
+                name="message"
                 cols="30"
-                rows="10"
+                rows="5"
                 required
                 autoComplete="off"
+                // value={message}
+                // onChange={handleInputChange}
+                minLength={5}
                 style={{ textTransform: "none" }}
                 placeholder="Write your message here" /></label>
-            <input type="submit" value="send" />
+            <input type="submit" value="send" onClick={() => { toast.success("Message sent successfully"); }} />
+            {/* <input type="submit" value="send" onClick={() => {
+              if (message.length >= 5) {
+                toast.success("Message sent successfully");
+              } else {
+                toast.error("Message must be at least 5 characters");
+              }
+            }}
+              disabled={message.length < 5} /> */}
           </form>
         </div>
       </div>

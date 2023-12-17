@@ -29,7 +29,7 @@ router.get("/fetchallcarts", fetchuser, async (req, res) => {
     res.json(cartsData);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Internal server error");
+    res.status(500).send({ error: "Internal server error" });
   }
 });
 
@@ -45,7 +45,7 @@ router.post(
       const { color, amount, price, image, max, name, _pid, category, company } = req.body;
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ error: errors.array() });
       }
       const carts = new CartItems({
         color, amount, price, image, max, name, _pid, category, company,
@@ -55,7 +55,7 @@ router.post(
       res.json(savedCart);
     } catch (error) {
       console.error(error.message);
-      res.status(500).send("Internal server error");
+      res.status(500).send({ error: "Internal server error" });
     }
   }
 );
@@ -67,7 +67,7 @@ router.delete(
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
+        return res.status(400).json({ error: errors.array() });
       }
       const cartsData = await CartItems.find({ user: req.user.id });
       cartsData.deleteMany();
@@ -89,10 +89,10 @@ router.put("/updatecart/:id", fetchuser, async (req, res) => {
     // Find the cart to be updated and update it 
     let cart = await CartItems.findById(req.params.id);
     if (!cart) {
-      return res.status(404).json("Cart Not Found");
+      return res.status(404).json({ error: "Cart Not Found" });
     }
     if (cart.user.toString() !== req.user.id) {
-      return res.status(401).json("User Not Allowed");
+      return res.status(401).json({ error: "User Not Allowed" });
     }
     cart = await CartItems.findByIdAndUpdate(
       req.params.id,
@@ -102,7 +102,7 @@ router.put("/updatecart/:id", fetchuser, async (req, res) => {
     res.json(cart);
   } catch (error) {
     console.error(error.message);
-    res.status(500).json("Internal server error");
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -113,7 +113,7 @@ router.delete("/deleteallcarts", fetchuser, async (req, res) => {
     res.json(cartsData);
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Internal server error");
+    res.status(500).send({ error: "Internal server error" });
   }
 });
 
@@ -123,17 +123,17 @@ router.delete("/deletecart/:id", fetchuser, async (req, res) => {
   try {
     let cart = await CartItems.findById(req.params.id);
     if (!cart) {
-      return res.status(404).send("Not Found");
+      return res.status(404).send({ error: "Item Not Found" });
     }
     // Allow deletion only if user owns this carts
     if (cart.user.toString() !== req.user.id) {
-      return res.status(401).send("Not Allowed");
+      return res.status(401).send({ error: "Not Allowed" });
     }
     cart = await CartItems.findByIdAndDelete(req.params.id);
     res.json({ Success: "Cart has been deleted", cart: cart });
   } catch (error) {
     console.error(error.message);
-    res.status(500).send("Internal server error");
+    res.status(500).send({ error: "Internal server error" });
   }
 });
 

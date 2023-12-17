@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // import { Button } from "../styles/Button";
 import "../App.css";
+import { toast } from "react-toastify";
 
-// const host = "http://localhost:3001";
 const host = process.env.REACT_APP_HOSTNAME;
 
-const Signup = (props) => {
+const Signup = () => {
   const [credentials, setCredentials] = useState({
     name: "",
     email: "",
@@ -31,14 +31,15 @@ const Signup = (props) => {
       }),
     });
     const json = await response.json();
-    // console.log(json);
     if (json.success) {
       localStorage.setItem("authToken", json.authToken);
-      props.showAlert("Account Created Successfully", "success");
+      // props.showAlert("Account Created Successfully", "success");
+      toast.success("Account Created Successfully");
       navigate("/");
     } else {
-      console.log("success = ", json.success);
-      props.showAlert("Invalid Details", "danger");
+      console.log("success = ", json);
+      // props.showAlert("Invalid Details", "danger");
+      toast.error(`${json.error ? json.error : "Error"}`);
     }
   };
 

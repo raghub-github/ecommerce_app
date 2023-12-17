@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import styled from "styled-components";
 import { useCartContext } from "./context/cart_context";
 import { useUserContext } from "./context/user_context";
+import { toast } from "react-toastify";
+import FormatPrice from "./Helpers/FormatePrice";
 // import { useNavigate } from 'react-router-dom';
 const host = process.env.REACT_APP_HOSTNAME;
 
@@ -13,9 +15,6 @@ const PaymentPage = () => {
   const { cart, total_price, shipping_fee } = useCartContext();
   const { user, getData } = useUserContext();
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
-  // console.log("user ", user);
-  // console.log("user address", userAddress);
-  // console.log("cart", cart);
   // const userAddressall = user.address;
   useEffect(() => {
     const ad = user.address;
@@ -24,7 +23,7 @@ const PaymentPage = () => {
         name: ad.name,
         district: ad.district || '', // Check if ad.district exists
         phone: ad.phone,
-        alterPhone: ad.alterPhone || '', // Check if ad.alterPhone exists
+        alterPhone: ad.alterPhone || '',
         vill_houseNo: ad.vill_houseNo || '',
         post_office: ad.post_office || '',
         state: ad.state || '',
@@ -33,27 +32,12 @@ const PaymentPage = () => {
         landmark: ad.landmark || ''
       });
       setUserdataBul(false);
-    } 
-    // else {
-    //   setUserAddress({
-    //     name: (user.name || ''),
-    //     phone: (user.phone || ''),
-    //     // district: '',
-    //     // alterPhone: '',
-    //     // vill_houseNo: '',
-    //     // post_office: '',
-    //     // state: '',
-    //     // city: '',
-    //     // pin: '',
-    //     // landmark: ''
-    //   });
-    // }
-  }, [user,userDataBul]);
+    }
+  }, [user, userDataBul]);
 
   const handleAddressChange = (e) => {
     e.preventDefault();
     const { name, value } = e.target;
-    console.log("Changing", name, "to", value);
     setUserAddress((prevUserData) => ({
       ...prevUserData,
       [name]: value,
@@ -79,30 +63,20 @@ const PaymentPage = () => {
       // navigate("/");
       getData();
       setIsFormSubmitted(true);
-      alert("success", json);
+      toast.success("Address saved successfully");
       // setUserdataBul(true);
     } else {
-      console.log("error = ", json);
-      alert("error", json)
+      toast.error(`${json.error}`);
     }
   };
 
   return (<>
     <Wrapper>
-      <div className="container">
-        <div className="grid grid-two-column">
-          {/* <div className="hero-section-data">
-                        <p className="intro-data">Welcome to </p>
-                        <h1 className="setStyle" style={{ color: "#410000" }}> {name} </h1>
-                        <p> <strong style={{ color: "rgb(9 74 0)" }}>  In the yogic tradition, Rudraksha are considered as the "Tears of Shiva" and not just an accessory or a piece of jewellery. It is seen as an instrument for inner transformation.This guide tells you all you need to know about this sacred seed.</strong></p>
-                        <NavLink to="./products">
-                            <Button>show now</Button>
-                        </NavLink>
-                    </div> */}
-
+      <div className="container" >
+        <div className="grid grid-two-column" style={{ justifyContent:"center"}}>
           <div className="hero-section-data" style={{ "textAlign": "center", }} >
-            <h2 className="textStyle" >Delivary Address</h2>
-            <div className="container" style={{ "marginTop": "1rem", "paddingTop": "1px", "paddingLeft": "70px", "paddingRight": "50px", "boxSizing": "border-box", "borderRadius": "10px", "paddingBottom": "1px", "backgroundColor": "rgb(227 245 255 / 28%)" }}>
+            <div className="container" style={{ "marginTop": "1rem", "paddingTop": "3rem", "paddingLeft": "70px", "paddingRight": "50px", "boxSizing": "border-box", "borderRadius": "10px", "paddingBottom": "3rem", "backgroundColor": "rgb(227 245 255 / 28%)" }}>
+              <h2 className="textStyle" >Delivary Address</h2>
               <form className="formStyle" onSubmit={handleSubmit}>
                 <div style={{ display: "flex", flexDirection: "row", gap: "20px", width: "100%" }}>
                   <label className='label-form' htmlFor="name">Name:*
@@ -139,7 +113,6 @@ const PaymentPage = () => {
                       name="alterPhone"
                       placeholder="ALTERNATIVE MOBILE NUMBER"
                       onChange={handleAddressChange}
-                      maxLength={10}
                       id="alterPhone"
                       style={{ textTransform: "none" }}
                       aria-describedby="mobileHelp"
@@ -239,14 +212,19 @@ const PaymentPage = () => {
                   className="contactInputs"
                   value="CONFIRM"
                 /> */}
-                <button type='submit' className="contactInputs" style={{color:"white", borderColor:"rgb(98, 84, 243)" , backgroundColor:"rgb(98, 84, 243)", paddingRight:"25px", paddingLeft:"25px", paddingTop:"12px", paddingBottom:"12px"}}>CONFIRM</button>
+                <button type='submit' className="contactInputs" style={{ color: "white", borderColor: "rgb(98, 84, 243)", backgroundColor: "rgb(98, 84, 243)", paddingRight: "25px", paddingLeft: "25px", paddingTop: "12px", paddingBottom: "12px" }}>CONFIRM</button>
               </form>
             </div>
           </div>
 
-          <div style={{ flex: 1, padding: '20px', alignItems: "center", textAlign: "center" }}>
-            <h2>Subtotal</h2>
-            <button disabled={!isFormSubmitted}>Pay Now</button>
+          <div className="hero-section-data" style={{ "textAlign": "center", }} >
+            <div className="container" style={{ "marginTop": "1rem", "paddingTop": "3rem", "paddingLeft": "70px", "paddingRight": "50px", "boxSizing": "border-box", "borderRadius": "10px", "paddingBottom": "3rem", "backgroundColor": "rgb(227 245 255 / 28%)" }}>
+              <h3 style={{ fontSize: "35px" }}>Subtotal</h3>
+              <hr />
+              <h3><FormatPrice price={total_price + shipping_fee} /></h3>
+              {/* <button disabled={!isFormSubmitted}>Pay Now</button> */}
+              <button disabled={!isFormSubmitted} type='submit' className="contactInputs" style={{ color: "white", borderColor: "rgb(98, 84, 243)", backgroundColor: "rgb(98, 84, 243)", paddingRight: "25px", paddingLeft: "25px", paddingTop: "12px", paddingBottom: "12px" }}>PAY NOW</button>
+            </div>
           </div>
         </div>
       </div>
